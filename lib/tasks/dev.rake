@@ -8,7 +8,7 @@ namespace :dev do
                  嘉義縣 雲林縣 台南市 高雄市 澎湖縣 金門縣 屏東縣 台東縣 花蓮縣]
     10.times do |i|
         puts "fake issues #{i}"
-        user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: rand(0..1), country: country.sample)
+        user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: 1, country: country.sample, :fb_image => Faker::Avatar.image)
         issue = Issue.create!( title:  Faker::App.name,
                       :description => Faker::Lorem.paragraph,
                       :creator => user.id  )

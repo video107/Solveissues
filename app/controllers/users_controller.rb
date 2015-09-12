@@ -3,6 +3,11 @@ class UsersController < ApplicationController
   before_action :set_user, :only => [:show, :edit, :update]
 
   def show
+    @agent = User.where(role: "1")
+    @user_issues = []
+    @user.vote_issues.each do |u_issue|
+      @user_issues << u_issue.id
+    end
   end
 
   def edit

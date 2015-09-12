@@ -1,14 +1,25 @@
 <div class="container">
   <div class="row">
     <div class="row">
-      <div class="">Hi   <%= @user.name %>     <span class="label label-success"><%= @user.country %></span></%></div>
+      <div class="">Hi   <%= @user.user_name %>     <span class="label label-success"><%= @user.country %></span></%></div>
       <div class="spacing"></div>
       <div class="well"><%= @user.description %></div>
-      <% if @user.role == "1" %>
-        <% total_issue = 0 %>
+      <% if @user.role == 1 %>
+        <% total_user = [] %>
         <% @user.vote_issues.each do |issue| %>
-          <% total_issue = issue %>
+          <% issue.vote_users.each do |user| %>
+            <% total_user << user.email %>
+          <% end %>
+        <% end %>
+        <h4>總touch 人數</h4>
+        <h1><%= total_user.uniq.count %></h1>
+        <h4>地區</h4>
+        <% total_user.uniq.each do |user| %>
+          <span class="label label-warning"><%= User.find_by_email(user).country %></span>
+        <% end %>
+      <% else %>
       <% end %>
+
     </div>
     <div class="row">
       <div class="col-xs-2 col-xs-offset-2">
@@ -28,7 +39,19 @@
         <br>
         <% end %>
       </ul>
-
+    </div>
+    <div class="row">
+      <h3>和我有共同關注的民代</h3>
+      <% @agent.each do |a|%>
+      <div class="col-xs-2  text-center">
+        <%= image_tag(a.fb_image, :width => 80) %>
+        <%#= image_tag(a.photo(:thumb)) %>
+        <% agent_issues = [] %>
+        <% agent_issues << a.id %>
+        <% total_issues = agent_issues + @user_issues %>
+        <div><%= total_issues.select {|x| total_issues.count(x) >1 }.uniq.count %></div>
+      </div>
+      <% end %>
 
     </div>
     <div class="row">
