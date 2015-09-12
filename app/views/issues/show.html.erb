@@ -10,11 +10,13 @@
 
 <div class="row">
   <div class="col-md-12"><h2 class="text-center">支持此議題的民代</h2></div>
-  <% @issue.votes.each do |v| %>
-    <% if v.user.role == 1 %>
-      <div class="col-md-2"><img src=<%= v.user.fb_image %> alt=""><p>name:<%= v.user.name %></p></div>
+  <div class="col-md-10 col-md-push-1">
+    <% @issue.votes.each do |v| %>
+      <% if v.user.role == 1 %>
+        <div class="col-md-1"><%= image_tag(v.user.fb_image, :width => 100) %><p>name:<%= v.user.name %></p></div>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 </div>
 
 <div class="row"></div>

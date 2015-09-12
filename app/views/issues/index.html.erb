@@ -6,6 +6,7 @@
         <tr>
           <th>議題</th>
           <th>人數</th>
+          <th>支持</th>
           <th></th>
         </tr>
       </thead>
@@ -16,9 +17,9 @@
         <tr>
           <td><%= link_to issue.title, issue %></td>
           <td><%= issue.votes.count %></td>
+          <td id = "like-"<%= issue.id %> ><%= has_vote?(current_user, issue) %></td>
           <td>
-          <%#= link_to '支持', issue_path(issue), :action => "checkvote", :remote => true %>
-          <%= link_to '支持?', like_path(:issue_id => issue.id), :id => "like-#{issue.id}" , :remote => true %>
+            <%= link_to '支持此議題', like_path(:issue_id => issue.id), :remote => true %>
           </td>
           <!-- <td><%#= link_to '支持', :controller => "votes", :method => "POST", :issue_id => issue.id, :remote => true %></td> -->
         </tr>
