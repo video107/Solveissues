@@ -1,10 +1,6 @@
 class IssuesController < ApplicationController
-<<<<<<< HEAD
-  def index
-  end
 
-=======
-  before_action :set_issue, only: [:show, :edit, :update, :destroy]
+ before_action :set_issue, only: [:show, :edit, :update, :destroy]
 
   # GET /issues
   # GET /issues.json
@@ -76,5 +72,4 @@ class IssuesController < ApplicationController
     def issue_params
       params.require(:issue).permit(:title, :description, :creator)
     end
->>>>>>> 8980441bb3e2af7e1c95c8ddc2a54192bbb3977c
 end
