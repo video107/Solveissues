@@ -8,9 +8,6 @@
 </head>
 <body>
 
-<div class="container">
-  <div class="row">
-    <br>
     <% if flash[:success] %>
       <p class="notice alert alert-success">
         <%= flash[:success] %>
@@ -26,10 +23,10 @@
         <%= flash[:alert] %>
       </p>
     <%end%>
-  </div>
-</div>
 
-<%= render :partial => "layouts/nav", :locals => {} %>
+
+    <%= render :partial => "layouts/nav", :locals => {} %>
+
 
 <div class="wrapper">
 <%= yield %>

@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
 
   def user_name
     if self
-       self.email.split("@").first
+       self.name || self.email.split("@").first
     else
       "Guest"
     end
