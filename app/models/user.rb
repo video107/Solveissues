@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-        # :confirmable
+        :confirmable
 
   devise :omniauthable, :omniauth_providers => [:facebook]
 
@@ -30,6 +30,8 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+
 
   def generate_authentication_token
     token = nil
