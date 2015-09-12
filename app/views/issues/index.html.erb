@@ -1,45 +1,43 @@
-
-
-
-
 <div class="container">
   <div class="row">
+    <% if current_user %>
+    <h1>Hi <strong class="user_name"><%= current_user.user_name %></strong></h1>
+    <% end %>
     <h1>Solveissues</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Creator</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Creator</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @issues.each do |issue| %>
-      <tr>
-        <td><%= issue.title %></td>
-        <td><%= issue.description %></td>
-        <td><%= issue.creator %></td>
-        <td><%= link_to 'Show', issue %></td>
-      </tr>
+      <tbody>
+        <% @issues.each do |issue| %>
+        <tr>
+          <td><%= issue.title %></td>
+          <td><%= issue.description %></td>
+          <td><%= issue.creator %></td>
+          <td><%= link_to 'Show', issue %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+
+    <%= link_to 'New Issue', new_issue_path %>
+    <br>
+
+    <% if current_user %>
+    <% else %>
+    <%= link_to "註冊", new_user_registration_path, class: "btn btn-warning" %>
+    <%= link_to "登入", new_user_session_path, class: "btn btn-success" %>
+    <%#= link_to user_omniauth_authorize_path(:facebook), :class => "btn btn-primary" do %>
+    <!-- Facebook登入 -->
+    <%# end %>
     <% end %>
-  </tbody>
-</table>
-
-<br>
+  </div>
 </div>
-</div>
-
-
-<% if current_user %>
-  <%= link_to 'New Issue', new_issue_path %>
-  <%= link_to "登出", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
-<% else %>
-  <%= link_to "註冊", new_user_registration_path, class: "btn btn-warning" %>
-  <%= link_to "登入", new_user_session_path, class: "btn btn-success" %>
-  <%= link_to user_omniauth_authorize_path(:facebook), :class => "btn btn-primary" do %>
-        Facebook登入
-  <% end %>
-<% end %>
