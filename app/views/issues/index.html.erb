@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="row">
+    <h1>Solveissues</h1>
+    <% if current_user %>
+      <%= link_to "登出", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
+    <% else %>
+      <%= link_to "註冊", new_user_registration_path, class: "btn btn-warning" %>
+      <%= link_to "登入", new_user_session_path, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

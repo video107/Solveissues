@@ -7,13 +7,27 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<% flash.each do |message_name, msg| %>
-  <!-- <%#= content_tag(:div, msg, class: "alert alert-#{message_name}") %> -->
-  <div class="alert alert-<%= message_name %>">
-    <%= msg %>
-    <a href="" data-dismiss="alert"></a>
+
+<div class="container">
+  <div class="row">
+    <br>
+    <% if flash[:success] %>
+      <p class="notice alert alert-success">
+        <%= flash[:success] %>
+      </p>
+    <%end%>
+    <% if flash[:notice] %>
+      <p class="notice alert alert-info">
+        <%= flash[:notice] %>
+      </p>
+    <%end%>
+    <% if flash[:alert] %>
+      <p class="alert alert-danger">
+        <%= flash[:alert] %>
+      </p>
+    <%end%>
   </div>
-<% end %>
+</div>
 
 <%= yield %>
 
