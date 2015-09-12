@@ -14,7 +14,7 @@
         <% @issues.each do |issue| %>
 
         <tr>
-          <td><%= issue.title %></td>
+          <td><%= link_to issue.title, issue %></td>
           <td><%= issue.votes.count %></td>
           <td><%= link_to '支持', new_vote_path %></td>
         </tr>
