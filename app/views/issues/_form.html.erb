@@ -11,19 +11,19 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label "標題" %><br>
-    <%= f.text_field :title %>
+  <div class="col-md-8 col-md-push-2">
+    <%= f.label "議題名稱" %><br>
+    <%= f.text_field :title, :class => "w100p" %>
   </div>
-  <div class="field">
-    <%= f.label "議題描述" %><br>
-    <%= f.text_area :description %>
+  <div class="col-md-8 col-md-push-2">
+    <%= f.label "說明" %><br>
+    <%= f.text_area :description, :class => "w100p", :rows => 10 %>
   </div>
 <!--   <div class="field">
     <%#= f.label :creator %><br>
     <%#= f.text_field :creator %>
   </div> -->
-  <div class="actions">
+  <div class="col-md-8 col-md-push-2">
     <%= f.submit "建立議題"%>
   </div>
 <% end %>
