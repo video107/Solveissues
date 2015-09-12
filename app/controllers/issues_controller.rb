@@ -6,6 +6,8 @@ class IssuesController < ApplicationController
   # GET /issues.json
   def index
     @issues = Issue.all
+    @q = @issues.ransack(params[:q])
+    @issues = @q.result(distinct: true).page(params[:page]).per(15)
   end
 
   # GET /issues/1

@@ -14,9 +14,14 @@
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
+        <% if @q %>
+          <%= search_form_for @q do |f| %>
+            <%= f.label :title_cont,"議題" %>
+            <%= f.search_field :title_cont, :class => "form-control form_word" %>
+            <%= f.submit "Search", :class=>"btn btn-default"%>
+          <% end %>
+        <% end %>
       </div>
-      <button type="submit" class="btn btn-default">搜尋議題</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
       <% if current_user %>

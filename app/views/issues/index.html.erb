@@ -18,14 +18,19 @@
           <td><%= issue.votes.count %></td>
           <td>
           <%#= link_to '支持', issue_path(issue), :action => "checkvote", :remote => true %>
-          <%= link_to '支持?', like_path(:issue_id => issue.id), :id => "like-#{issue.id}" , :remote => true %>
+          <span><%= link_to like_path(:issue_id => issue.id), :id => "like-#{issue.id}" , :remote => true do%>
+          <%= icon("thumbs-up") %></span>
+          <% end %>
+
           </td>
           <!-- <td><%#= link_to '支持', :controller => "votes", :method => "POST", :issue_id => issue.id, :remote => true %></td> -->
         </tr>
         <% end %>
       </tbody>
     </table>
+    <%= link_to '建立議題', new_issue_path, class: "btn btn-success" %>
+    <br>
+    <%= paginate @issues %>
 
-    <%= link_to '建立議題', new_issue_path %>
   </div>
 </div>
