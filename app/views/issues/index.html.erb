@@ -16,7 +16,11 @@
         <tr>
           <td><%= link_to issue.title, issue %></td>
           <td><%= issue.votes.count %></td>
-          <td><%= link_to '支持', new_vote_path %></td>
+          <td>
+          <%#= link_to '支持', issue_path(issue), :action => "checkvote", :remote => true %>
+          <%= link_to '支持', like_path(:issue_id => issue.id), :remote => true %>
+          </td>
+          <!-- <td><%#= link_to '支持', :controller => "votes", :method => "POST", :issue_id => issue.id, :remote => true %></td> -->
         </tr>
         <% end %>
       </tbody>

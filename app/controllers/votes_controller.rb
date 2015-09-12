@@ -3,13 +3,22 @@ class VotesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    current_user.vote.create(params[:id])
-    redirect_to issues_path
+    @vote = current_user.votes.create(:issue_id => params[:issue_id])
+
+    respond_to do |format|
+      format.html
+      format.js{}
+    end
   end
 
   def destroy
+    @issue = Issue.find_by_id
     Vote.find(params[:id]).destroy
-    redirect_to issues_path
+    respond_to do |format|
+      format.html
+      format.js{}
+    end
   end
+
 
 end

@@ -13,6 +13,10 @@ class IssuesController < ApplicationController
   def show
   end
 
+  def checkvote
+    byebug
+  end
+
   # GET /issues/new
   def new
     authenticate_user!
