@@ -3,11 +3,12 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-        # :confirmable
+        :confirmable
 
   devise :omniauthable, :omniauth_providers => [:facebook]
 
-    def self.from_omniauth(auth)
+
+  def self.from_omniauth(auth)
     user = where( fb_uid: auth.uid ).first
 
     unless user
@@ -34,6 +35,8 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+
 
   def generate_authentication_token
     token = nil
