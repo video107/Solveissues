@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   devise :omniauthable, :omniauth_providers => [:facebook]
 
+<<<<<<< HEAD
   has_many :votes
   has_many :vote_issues, through: :votes, source: :issue, :dependent => :destroy
 
@@ -14,6 +15,10 @@ class User < ActiveRecord::Base
   has_attached_file :photo, :styles => { :large => "600x600>", :medium => "300x300>", :small => "250x250>", :thumb => "100x100>",:special => "70x70>" }, :default_url => "/images/:style/missing.png"
   # :path => ":rails_root/public/system/menus/:attachment/:id_partition/:style/:filename"
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
+=======
+  has_many :votes, :dependent => :destroy
+  has_many :issues, :through => :votes
+>>>>>>> 8f6b277cf09c40e2e933cf21159514f1a526df38
 
   def self.from_omniauth(auth)
     where(fb_uid: auth.uid).first_or_create do |user|
