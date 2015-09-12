@@ -15,6 +15,7 @@ class IssuesController < ApplicationController
 
   # GET /issues/new
   def new
+    authenticate_user!
     @issue = Issue.new
   end
 
@@ -25,6 +26,7 @@ class IssuesController < ApplicationController
   # POST /issues
   # POST /issues.json
   def create
+    authenticate_user!
     @issue = Issue.new(issue_params)
 
     respond_to do |format|
