@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="row">
+      <div class="">Hi   <%= @user.name %>     <span class="label label-success"><%= @user.country %></span></%></div>
+      <div class="spacing"></div>
+      <div class="well"><%= @user.description %></div>
+      <% if @user.role == "1" %>
+        <% total_issue = 0 %>
+        <% @user.vote_issues.each do |issue| %>
+          <% total_issue = issue %>
+      <% end %>
+    </div>
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-2">
+        <h1>議題名稱</h1>
+      </div>
+      <div class="col-xs-2 col-xs-offset-2">
+        <h1>關注人數</h1>
+      </div>
+    </div>
+    <div class="row">
+      <ul>
+        <div class="spacing"></div>
+        <% @user.vote_issues.each do |issue| %>
+        <li class="col-xs-2 col-xs-offset-2"><%= link_to issue.title, issue_path(issue) %></li>
+        <li class="col-xs-1 col-xs-offset-2 badge"><%= issue.votes_count %></li>
+        <br>
+        <br>
+        <% end %>
+      </ul>
+
+
+    </div>
+    <div class="row">
+      <%= link_to "編輯資料",edit_user_path(current_user), :class => "btn btn-primary" %>
+    </div>
+  </div>
+</div>
