@@ -5,9 +5,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.persisted?
       sign_in(@user)
-      # , :event => :authentication #this will throw if @user is not activated
-      redirect_to root_path(:facebookbuy => "true")
-
+      redirect_to root_path
+      flash[:notice] == "Facebook登入成功"
     else
       session["devise.facebook_data"] = request.env["omniauth.auth"]
       redirect_to new_user_registration_url
