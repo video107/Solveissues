@@ -1,19 +1,19 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Title:</strong>
+  <strong>議題名稱:</strong>
   <%= @issue.title %>
 </p>
 
 <p>
-  <strong>Description:</strong>
+  <strong>說明:</strong>
   <%= @issue.description %>
 </p>
 
-<p>
-  <strong>Creator:</strong>
-  <%= @issue.creator %>
-</p>
+<div class="row">
+  <div class="col-md-12">支持此議題的民代</div>
 
-<%= link_to 'Edit', edit_issue_path(@issue) %> |
-<%= link_to 'Back', issues_path %>
+</div>
+
+<%#= link_to 'Edit', edit_issue_path(@issue) %> |
+<%= link_to '回議題列表', issues_path %>
