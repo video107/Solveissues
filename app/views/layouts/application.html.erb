@@ -9,18 +9,21 @@
 <body>
 
     <% if flash[:success] %>
-      <p class="notice alert alert-success">
+      <p class="alert alert-success">
         <%= flash[:success] %>
+        <a href="" class="close" data-dismiss="alert">&#215;</a>
       </p>
     <%end%>
     <% if flash[:notice] %>
-      <p class="notice alert alert-info">
+      <p class="alert alert-info">
         <%= flash[:notice] %>
+        <a href="" class="close" data-dismiss="alert">&#215;</a>
       </p>
     <%end%>
     <% if flash[:alert] %>
       <p class="alert alert-danger">
         <%= flash[:alert] %>
+        <a href="" class="close" data-dismiss="alert">&#215;</a>
       </p>
     <%end%>
 

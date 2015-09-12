@@ -7,12 +7,19 @@
 
       <div class="field">
         <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true %>
+        <%= f.email_field :email, autofocus: true, :class => "form-control form-width"  %>
       </div>
       <br>
       <div class="field">
         <%= f.label :name %><br />
-        <%= f.text_field :name%>
+        <%= f.text_field :name, :class => "form-control form-width" %>
+      </div>
+      <br>
+      <div class="field">
+        <%= f.label :country %><br />
+        <%= f.select :country, %w[台北市 基隆市 新北市 連江縣 宜蘭縣 新竹市 新竹縣 桃園縣 苗栗縣 台中市 彰化縣 南投縣 嘉義市 嘉義縣 雲林縣 台南市 高雄市 澎湖縣 金門縣 屏東縣 台東縣 花蓮縣],
+         {}, :class => "form-control form-width" %>
+        <%#= f.text_field :country%>
       </div>
       <br>
       <div class="field">
@@ -20,12 +27,12 @@
         <% if @minimum_password_length %>
         <em>(最少 <%= @minimum_password_length %> 位)</em>
         <% end %><br />
-        <%= f.password_field :password, autocomplete: "off" %>
+        <%= f.password_field :password, autocomplete: "off", :class => "form-control form-width"  %>
       </div>
       <br>
       <div class="field">
         <%= f.label :確認密碼 %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "off" %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", :class => "form-control form-width"  %>
       </div>
       <br>
 
