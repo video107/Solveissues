@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150912050025) do
+ActiveRecord::Schema.define(version: 20150912050401) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -26,9 +26,20 @@ ActiveRecord::Schema.define(version: 20150912050025) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "fb_image"
+    t.string   "fb_uid"
+    t.string   "fb_access_token"
+    t.datetime "fb_expires_at"
+    t.string   "authentication_token"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
+  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["fb_uid"], name: "index_users_on_fb_uid"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end
