@@ -28,12 +28,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass'
 gem "kaminari"
-gem "kaminari"
+gem "devise"
 gem 'faker'
 gem "omniauth-facebook"
 gem 'ransack'
 gem 'paperclip'
 gem "letter_opener", :group => :development
+gem 'jbuilder', '~> 2.0'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
