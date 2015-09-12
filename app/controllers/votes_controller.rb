@@ -4,10 +4,10 @@ class VotesController < ApplicationController
 
   def create
     @vote = current_user.votes.create(:issue_id => params[:issue_id])
-
+    @issue_id = params[:issue_id]
     respond_to do |format|
       format.html
-      format.js{}
+      format.js "alert('Hello Rails');"
     end
   end
 
@@ -16,7 +16,7 @@ class VotesController < ApplicationController
     Vote.find(params[:id]).destroy
     respond_to do |format|
       format.html
-      format.js{}
+      format.js{ }
     end
   end
 
