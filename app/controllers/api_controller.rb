@@ -19,6 +19,8 @@ class ApiController < ActionController::Base
 
   def add_after_action
     response.headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'POST, PUT, GET, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = '*'
   end
 
 end
