@@ -8,6 +8,9 @@
 </head>
 <body>
 
+    <%= render :partial => "layouts/nav", :locals => {} %>
+
+
     <% if flash[:success] %>
       <p class="alert alert-success">
         <%= flash[:success] %>
@@ -26,9 +29,6 @@
         <a href="" class="close" data-dismiss="alert">&#215;</a>
       </p>
     <%end%>
-
-
-    <%= render :partial => "layouts/nav", :locals => {} %>
 
 
 <div class="wrapper">

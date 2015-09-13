@@ -1,7 +1,9 @@
 <div class="container">
   <div class="row">
     <div class="row">
-      <div class="">Hi   <%= @user.user_name %>     <span class="label label-success"><%= @user.country %></span></%></div>
+      <div class="">Hi   <%= @user.user_name %>
+        <span class="label label-success"><%= @user.country %></span> %>
+      </div>
       <div class="spacing"></div>
       <div class="well"><%= @user.description %></div>
       <% if @user.role == 1 %>
@@ -11,12 +13,18 @@
             <% total_user << user.email %>
           <% end %>
         <% end %>
-        <h4>總touch 人數</h4>
+        <h4>你所接觸到的總人數</h4>
         <h1><%= total_user.uniq.count %></h1>
-        <h4>地區</h4>
-        <% total_user.uniq.each do |user| %>
-          <span class="label label-warning"><%= User.find_by_email(user).country %></span>
+
+        <h4>地區人數分佈</h4>
+        <% country_hash = Hash.new %>
+
+        <% country_hash=return_total_user_country_hash(total_user) %>
+
+        <% country_hash.each_key do |k| %>
+          <span class="label label-warning"><%= k %> : <%= country_hash[k] %></span><br>
         <% end %>
+
       <% else %>
       <% end %>
 
