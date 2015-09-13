@@ -31,7 +31,7 @@ class ApiV1::AuthController < ApiController
 
   def options
     response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Headers'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Reuqested-With, Content-Type, Accept'
     render :text => "ok"
   end
 
