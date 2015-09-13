@@ -20,9 +20,9 @@ Rails.application.routes.draw do
     post "login" => "auth#login"
     post "logout" => "auth#logout"
     resources :issues
-    resources :users do
-      get "same_votes_reps" => "users#same"
-    end
+    resources :users
+    get "same_votes_reps" => "users#same"  
+
 
     # resources :menus
     # resources :orders

@@ -1,4 +1,0 @@
-response.headers['Access-Control-Allow-Origin'] = '*'
-json.rep @celebrates.each do |cel|
-  json.id cel.id
-  json.name cel.name
