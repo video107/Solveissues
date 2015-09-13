@@ -18,9 +18,21 @@
           <td><%= issue.votes.count %></td>
           <td>
           <%#= link_to '支持', issue_path(issue), :action => "checkvote", :remote => true %>
-          <span><%= link_to like_path(:issue_id => issue.id), :id => "like-#{issue.id}" , :remote => true do%>
-          <%= icon("thumbs-up") %></span>
+          <% if current_user %>
+            <% vote = issue.find_vote_by_user(current_user) %>
+            <div id="like-<%= issue.id %>">
+              <%= render :partial => "votes/show", :locals => {:issue => issue, :vote => vote} %>
+            </div>
+          <% else %>
+            <span class="thumb"><%= link_to "", :disabled => true  do%>
+            <%= icon("thumbs-up") %></span>
+            <% end %>
           <% end %>
+
+          <!-- <span class="thumb"><%#= link_to like_path(:issue_id => issue.id), :id => "like-#{issue.id}" , :remote => true do%> -->
+          <!-- <%#= icon("thumbs-up") %></span> -->
+          <!-- <%# end %> -->
+
 
           </td>
           <!-- <td><%#= link_to '支持', :controller => "votes", :method => "POST", :issue_id => issue.id, :remote => true %></td> -->
