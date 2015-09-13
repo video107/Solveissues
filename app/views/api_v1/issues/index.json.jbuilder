@@ -1,4 +1,3 @@
-response.headers['Access-Control-Allow-Origin'] = '*'
 json.data @issues do |issue|
   json.id issue.id
   json.title issue.title

@@ -1,4 +1,3 @@
-response.headers['Access-Control-Allow-Origin'] = '*'
 json.id @issue.id
 json.title @issue.title
 json.description @issue.description
