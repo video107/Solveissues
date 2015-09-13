@@ -29,4 +29,7 @@ class ApiV1::AuthController < ApiController
     render :json => { :message => "Logout OK" }
   end
 
+  def options
+  end
+
 end
