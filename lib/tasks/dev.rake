@@ -60,13 +60,12 @@ namespace :dev do
       issue = Issue.all.sample
       vote = Vote.new(:issue => issue, :user => user)
       if issue.find_vote_by_user(user)
-        return
       else
         vote.save!
       end
     end
   end
-  
+
 
 
 
