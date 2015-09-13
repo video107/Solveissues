@@ -1,6 +1,7 @@
 class ApiController < ActionController::Base
 
   before_action :authenticate_user_from_token!
+  after_action :add_after_action
 
   protected
 
@@ -14,6 +15,10 @@ class ApiController < ActionController::Base
     end
    end
 
+  end
+
+  def add_after_action
+    response.headers['Access-Control-Allow-Origin'] = '*'
   end
 
 end
