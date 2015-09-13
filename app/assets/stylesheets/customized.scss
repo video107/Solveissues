@@ -15,7 +15,7 @@ li {
 }
 
 .thumb {
-  
+
 }
 
 
@@ -31,13 +31,35 @@ li {
 
 
 // sky
+.user-img{
+  min-height: 150px;
+}
+.user-name{
+  min-height: 30px;
+}
+.sky-header{
+  background-color:#FFF5D5;
+  text-align: center;
+}
+.container{
+  padding: 10px 200px;
+}
 .text-center{
   text-align: center;
+}
+.text-right{
+  text-align: right;
+}
+.position-right-botton{
+  position: relative;
+  bottom: 0px;
+  right: 0px;
 }
 .w100p{
   width: 100%;
 }
 .issue-description-box{
-  background-color: #ddd;
+  padding:20px 50px;
+  background-color: #eee;
   min-height: 300px;
 }
