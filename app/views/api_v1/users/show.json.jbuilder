@@ -1,7 +1,4 @@
-
-json.name1 @celebrate.name
-json.name2 @user.name
-
+response.headers['Access-Control-Allow-Origin'] = '*'
 json.id @celebrate.id
 json.name @celebrate.name
 json.picture @celebrate.fb_image
@@ -18,8 +15,3 @@ end
 same_issues = vote_issues + user_issues
 return_same_issues = same_issues.select {|x| same_issues.count(x) >1 }.uniq
 json.same_issues return_same_issues.uniq
-
-
-
-json.test1  vote_issues
-json.test2  user_issues
