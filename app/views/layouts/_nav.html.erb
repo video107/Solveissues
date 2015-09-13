@@ -17,8 +17,7 @@
       <div class="form-group">
         <% if @q %>
           <%= search_form_for @q do |f| %>
-            <%= f.label :title_cont,"議題" %>
-            <%= f.search_field :title_cont, :class => "form-control form_word" %>
+            <%= f.search_field :title_cont, :class => "form-control form_word", :placeholder => "搜尋議題" %>
             <%= f.submit "Search", :class=>"btn btn-default"%>
           <% end %>
         <% end %>
