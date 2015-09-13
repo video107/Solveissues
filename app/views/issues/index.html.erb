@@ -4,10 +4,9 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>議題</th>
-          <th>人數</th>
-          <th>支持</th>
-          <th></th>
+          <th><h4>議題</h4></th>
+          <th><h4>人數</h4></th>
+          <th> <%= link_to '建立新議題', new_issue_path, class: "btn btn-success w100p" %></th>
         </tr>
       </thead>
 
@@ -16,35 +15,22 @@
 
         <tr>
           <td><%= link_to issue.title, issue %></td>
-            <td id="count-<%= issue.id %>"><%= issue.votes_count %></td>
+          <td id="count-<%= issue.id %>"><%= issue.votes_count %></td>
           <td>
-
-          <%#= link_to '支持', issue_path(issue), :action => "checkvote", :remote => true %>
-          <% if current_user %>
-            <% vote = issue.find_vote_by_user(current_user) %>
-            <div id="like-<%= issue.id %>">
-              <%= render :partial => "votes/show", :locals => {:issue => issue, :vote => vote} %>
-            </div>
-          <% else %>
-              <%= icon("thumbs-up") %>
-          <% end %>
-
-          <!-- <span class="thumb"><%#= link_to like_path(:issue_id => issue.id), :id => "like-#{issue.id}" , :remote => true do%> -->
-          <!-- <%#= icon("thumbs-up") %></span> -->
-          <!-- <%# end %> -->
-
-
-            <!-- <span> -->
-              <%#= link_to_if current_user.votes.find_by_issue_id( issue.id ), icon("thumbs-up"), like_path(:issue_id => issue.id), :remote => true do %>
-                <%#= link_to '收回',dislike_path(:issue_id => issue.id), :remote => true, :method => "delete" %>
-              <!-- <%# end %> -->
-            <!-- </span> -->
+            <% if current_user %>
+              <% vote = issue.find_vote_by_user(current_user) %>
+              <div id="like-<%= issue.id %>" class="text-align">
+                <%= render :partial => "votes/show", :locals => {:issue => issue, :vote => vote} %>
+              </div>
+            <% else %>
+                <%= icon("thumbs-up") %>
+            <% end %>
           </td>
         </tr>
         <% end %>
       </tbody>
     </table>
-    <%= link_to '建立議題', new_issue_path, class: "btn btn-success" %>
+
     <br>
     <%= paginate @issues %>
 

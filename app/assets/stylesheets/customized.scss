@@ -47,10 +47,19 @@ li {
 .text-center{
   text-align: center;
 }
+.text-right{
+  text-align: right;
+}
+.position-right-botton{
+  position: relative;
+  bottom: 0px;
+  right: 0px;
+}
 .w100p{
   width: 100%;
 }
 .issue-description-box{
-  background-color: #ddd;
+  padding:20px 50px;
+  background-color: #eee;
   min-height: 300px;
 }

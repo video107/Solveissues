@@ -1,25 +1,41 @@
-<div class="row">
-  <div class="col-md-8 col-md-push-2"><h2 class="text-center"><%= @issue.title %></h2></div>
-  <div class="col-md-8 col-md-push-2 issue-description-box"><p><%= @issue.description %></p></div>
-</div>
-<br>
-<div class="row">
-  <div class="col-md-4 col-md-push-4">
-    <%= link_to "支持", vote_path(@issue), :remote => true, :class => "btn btn-success w100p" %>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 sky-header"><h2><%= @issue.title %></h2></div>
+    <div class="issue-description-box">
+      <br>
+      <p><%= @issue.description %></p>
+      <legend></legend>
+      <div class="col-xs-9 text-right"><h4>支持這個議題?</h4></div>
+      <div class="col-xs-3 position-right-botton">
+        <% if current_user %>
+          <% vote = @issue.find_vote_by_user(current_user) %>
+          <div id="like-<%= @issue.id %>" class="text-center">
+            <%= render :partial => "votes/show", :locals => {:issue => @issue, :vote => vote} %>
+          </div>
+        <% else %>
+          <%= icon("thumbs-up") %>
+        <% end %>
+      </div>
+    </div>
   </div>
-</div>
+  <br>
 
-<div class="row">
-  <div class="col-md-12"><h2 class="text-center">支持此議題的民代</h2></div>
-  <div class="col-md-10 col-md-push-1">
-    <% @issue.votes.each do |v| %>
-      <% if v.user.role == 1 %>
-        <div class="col-md-1"><%= image_tag(v.user.fb_image, :width => 100) %><p>name:<%= v.user.name %></p></div>
+  <div class="row">
+    <div class="col-xs-12 sky-header"><h2>支持此議題的民代</h2></div>
+
+      <% @issue.votes.each do |v| %>
+        <% if v.user.role == 1 %>
+          <div class="col-xs-2 text-center user-img"><%= image_tag(v.user.fb_image, :class => "w100p")%>
+            <p class = "user-name"><%= v.user.name %></p>
+          </div>
+
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-</div>
 
-<div class="row"></div>
-  <div class="col-md-8 col-md-push-2"><%= link_to '回議題列表', issues_path, class: "btn btn-primary" %></div>
+  </div>
+
+  <div class="row"></div>
+    <%= link_to "回議題總覽",issues_path, :class => "btn btn-default w100p" %>
+
+  </div>
 </div>
