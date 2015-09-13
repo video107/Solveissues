@@ -30,6 +30,8 @@ class ApiV1::AuthController < ApiController
   end
 
   def options
+    render :text => 'OK'
+
   end
 
 end
