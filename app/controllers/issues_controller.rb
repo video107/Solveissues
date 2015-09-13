@@ -30,9 +30,9 @@ class IssuesController < ApplicationController
   def create
     authenticate_user!
     @issue = Issue.new(issue_params)
-
     respond_to do |format|
       if @issue.save
+        @issue.votes.create(:user_id => current_user.id)
         format.html { redirect_to @issue, notice: 'Issue was successfully created.' }
         format.json { render :show, status: :created, location: @issue }
       else

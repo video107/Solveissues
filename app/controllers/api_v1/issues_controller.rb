@@ -14,11 +14,12 @@ class ApiV1::IssuesController < ApiController
                         description: params[:discription],
                         creator: params[:authentication_token]
       )
+    user = User.find_by_id(params[:authentication_token])
 
     if @issue.save
+      @issue.votes.create(:user_id => params[:authentication_token])
       render :json => { :status => 200,
                         :message => "Issue create ok",
-                        :user => user,
                         :auth_token => user.authentication_token,
                         :issue => @issue
                       }
