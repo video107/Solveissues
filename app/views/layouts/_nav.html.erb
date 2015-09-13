@@ -27,8 +27,8 @@
     <ul class="nav navbar-nav navbar-right">
       <% if current_user %>
         <li class="user_name"><%= link_to "hi ,#{current_user.user_name}","" %></li>
+        <li><%= link_to "我的議題", user_path(current_user)%></li>
         <li><%= link_to "編輯個人資料",edit_user_path(current_user) %></li>
-        <li><%= link_to "Profile", user_path(current_user)%></li>
         <li><%= link_to "登出", des_user_session_path %></li>
         <% else %>
         <li><%= link_to "註冊", new_user_registration_path%></li>
