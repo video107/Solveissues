@@ -1,0 +1,9 @@
+<% if vote %>
+   <%= link_to issue_vote_path(issue, vote),:method => :delete, :class => "btn btn-default", :remote =>true do%>
+     <%= icon("thumbs-up") %>
+   <% end %>
+  <% else %>
+   <%= link_to issue_votes_path(issue), :method => :post, :class => "btn btn-primary", :remote =>true do %>
+     <%= icon("thumbs-up") %>
+   <% end %>
+<% end %>

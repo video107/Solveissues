@@ -16,7 +16,7 @@
 
         <tr>
           <td><%= link_to issue.title, issue %></td>
-          <td><%= issue.votes.count %></td>
+            <td id="count-<%= issue.id %>"><%= issue.votes_count %></td>
           <td>
 
           <%#= link_to '支持', issue_path(issue), :action => "checkvote", :remote => true %>

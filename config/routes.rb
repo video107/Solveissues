@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'issues#index'
   root 'issues#index'
-  resources :issues
-  resources :votes
+  resources :issues do
+    resources :votes
+  end
   get 'like' => 'votes#create', :as => :like
   delete 'like' => 'votes#destroy', :as => :dislike
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
