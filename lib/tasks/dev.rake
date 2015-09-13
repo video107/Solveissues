@@ -18,7 +18,12 @@ namespace :dev do
         Vote.create!(user: user, issue: issue)
     end
 
-    100.times do |i|
+    10.times do |i|
+      puts "fake celebrates #{i}"
+      user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: 1, country: country.sample, :fb_image => Faker::Avatar.image)
+    end
+
+    200.times do |i|
       puts "fake vots #{i}"
       users = User.all
       issues = Issue.all
