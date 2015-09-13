@@ -1,4 +1,4 @@
-
+response.headers['Access-Control-Allow-Origin'] = '*'
 json.rep @celebrates.each do |cel|
   rep = User.find(cel)
   json.id rep.id

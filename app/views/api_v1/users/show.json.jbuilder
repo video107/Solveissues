@@ -1,4 +1,4 @@
-
+response.headers['Access-Control-Allow-Origin'] = '*'
 json.id @celebrate.id
 json.name @celebrate.name
 json.picture @celebrate.fb_image
