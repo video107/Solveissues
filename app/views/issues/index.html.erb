@@ -23,7 +23,7 @@
           <% if current_user %>
             <% vote = issue.find_vote_by_user(current_user) %>
             <div id="like-<%= issue.id %>">
-              <%#= render :partial => "votes/show", :locals => {:issue => issue, :vote => vote} %>
+              <%= render :partial => "votes/show", :locals => {:issue => issue, :vote => vote} %>
             </div>
           <% else %>
               <%= icon("thumbs-up") %>
