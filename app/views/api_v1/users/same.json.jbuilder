@@ -1,4 +1,4 @@
-json.rep @celebrates.each do |cel|
+json.data @celebrates.each do |cel|
   rep = User.find(cel)
   json.id rep.id
   json.name rep.name
