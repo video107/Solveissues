@@ -18,7 +18,7 @@ namespace :dev do
 
     10.times do |i|
       puts "fake celebrates #{i}"
-      user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: 1, country: country.sample, :fb_image => Faker::Avatar.image, :name => usernames.sample)
+      user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: 1, country: country.sample, :fb_image => Faker::Avatar.image, :name => usrenames.sample)
     end
 
     200.times do |i|
