@@ -19,15 +19,12 @@
           <td><%= issue.votes.count %></td>
           <td id = "like-"<%= issue.id %> ><%= has_vote?(current_user, issue) %></td>
           <td>
-            <%#= if current_user.votes.find_by_issue_id( issue.id ) %>
             <span>
-              <%= link_to_if current_user.votes.find_by_issue_id( issue.id ), '', like_path(:issue_id => issue.id), :remote => true do %>
-                <%= link_to '取消',dislike_path(:issue_id => issue.id), :remote => true, :method => "delete" %>
+              <%= link_to_if current_user.votes.find_by_issue_id( issue.id ), icon("thumbs-up"), like_path(:issue_id => issue.id), :remote => true do %>
+                <%= link_to '收回',dislike_path(:issue_id => issue.id), :remote => true, :method => "delete" %>
               <% end %>
-              <%= icon("thumbs-up") %>
             </span>
           </td>
-          <!-- <td><%#= link_to '支持', :controller => "votes", :method => "POST", :issue_id => issue.id, :remote => true %></td> -->
         </tr>
         <% end %>
       </tbody>

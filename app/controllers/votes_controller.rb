@@ -14,11 +14,14 @@ class VotesController < ApplicationController
   end
 
   def destroy
-    @issue = Issue.find_by_id
-    Vote.find(params[:id]).destroy
-    respond_to do |format|
-      format.html
-      format.js{ }
+    @vote = current_user.votes.find_by_issue_id(params[:issue_id])
+    if @vote
+      @vote.destroy
+      @issue_id = params[:issue_id]
+      respond_to do |format|
+        format.html
+        format.js{ }
+      end
     end
   end
 
