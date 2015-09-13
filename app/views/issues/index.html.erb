@@ -19,7 +19,10 @@
           <td><%= issue.votes.count %></td>
           <td id = "like-"<%= issue.id %> ><%= has_vote?(current_user, issue) %></td>
           <td>
-            <%= link_to '支持此議題', like_path(:issue_id => issue.id), :remote => true %>
+            <%#= if current_user.votes.find_by_issue_id( issue.id ) %>
+            <%= link_to_if current_user.votes.find_by_issue_id( issue.id ), '支持此議題', like_path(:issue_id => issue.id), :remote => true do %>
+              <%= link_to '取消支持',dislike_path(:issue_id => issue.id), :remote => true, :method => "delete" %>
+            <% end %>
           </td>
           <!-- <td><%#= link_to '支持', :controller => "votes", :method => "POST", :issue_id => issue.id, :remote => true %></td> -->
         </tr>
