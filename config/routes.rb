@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   scope :path => '/api/v1/', :module => "api_v1", :defaults => { :format => :json }, :as => 'v1' do
     post "login" => "auth#login"
-    match '/' => "auth#options", via: :options
+    match 'login' => "auth#options", via: :options
     post "logout" => "auth#logout"
     resources :issues
     resources :users
