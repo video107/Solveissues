@@ -15,6 +15,14 @@ Rails.application.routes.draw do
     get 'sign_out', :to => 'devise/sessions#destroy', :as => :des_user_session
   end
   resources :users
+
+  scope :path => '/api/v1/', :module => "api_v1", :defaults => { :format => :json }, :as => 'v1' do
+    post "login" => "auth#login"
+    post "logout" => "auth#logout"
+
+    # resources :menus
+    # resources :orders
+  end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
