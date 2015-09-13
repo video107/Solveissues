@@ -16,7 +16,8 @@ class ApiV1::AuthController < ApiController
       render :json => { :status => 200,
                         :message => "Login OK",
                         :user => user,
-                        :auth_token => user.authentication_token  }
+                        :auth_token => user.authentication_token,
+                        :vote_issues => user.vote_issues }
     else
       render :json => { :message => "Login Failed" }, :status => 401
     end
