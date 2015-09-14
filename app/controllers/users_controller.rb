@@ -3,11 +3,17 @@ class UsersController < ApplicationController
   before_action :set_user, :only => [:show, :edit, :update]
 
   def show
-    @agent = User.where(role: "1")
-    @user_issues = []
-    @user.vote_issues.each do |u_issue|
-      @user_issues << u_issue.id
+    @agent = User.where(role: "1").includes(:votes)
+
+    @user_issues = @user.vote_issues
+
+    if @user.role == 1
+      total_user_ids = Vote.where( :issue_id => @user_issues.map(&:id) ).pluck(:user_id).uniq
+      @total_users = User.find( total_user_ids )
+
+      #@total_users = User.includes(:votes).where( "votes.issue_id" => @user_issues.map(&:id) )
     end
+
   end
 
   def edit
