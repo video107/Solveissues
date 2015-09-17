@@ -4,7 +4,6 @@ class UsersController < ApplicationController
 
   def show
     @agent = User.where(role: "1").includes(:votes)
-
     @user_issues = @user.vote_issues
 
     if @user.role == 1
@@ -12,8 +11,8 @@ class UsersController < ApplicationController
       @total_users = User.find( total_user_ids )
 
       #@total_users = User.includes(:votes).where( "votes.issue_id" => @user_issues.map(&:id) )
+      #一個query完成
     end
-
   end
 
   def edit
@@ -28,7 +27,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def agent_list
+    @agent = User.where(role: "1").includes(:votes)
+    @user_issues = current_user.vote_issues
+  end
 
+  def agent_show
+
+  end
 
 
 

@@ -8,24 +8,26 @@ Rails.application.routes.draw do
   resources :issues do
     resources :votes
   end
+
   get 'like' => 'votes#create', :as => :like
   delete 'like' => 'votes#destroy', :as => :dislike
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
   devise_scope :user do
     get 'sign_out', :to => 'devise/sessions#destroy', :as => :des_user_session
   end
+
   resources :users
+  get 'agent_list' => 'users#agent_list'
 
   scope :path => '/api/v1/', :module => "api_v1", :defaults => { :format => :json }, :as => 'v1' do
     post "login" => "auth#login"
+    post "logout" => "auth#logout"
     match 'login' => 'auth#options', via: :options
     # match 'login' => "auth#options", via: :options
-    post "logout" => "auth#logout"
     resources :issues
     resources :users
     get "same_votes_reps" => "users#same"
-
-
     # resources :menus
     # resources :orders
   end

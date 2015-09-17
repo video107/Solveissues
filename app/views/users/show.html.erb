@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
 
-    <% if @user.role == 1 %>
-      <div class="col-xs-12 sky-header"><h2>你所接觸到的總人數: <%= @total_users.size %></h2></div>
+    <% if @user.role == 1 && @user == current_user %>
+      <div class="col-xs-12 sky-header"><h2>接觸的總人數: <%= @total_users.size %></h2></div>
       <h1></h1>
 
       <h3 class="text-center">地區分佈</h3>
@@ -19,16 +19,13 @@
               <span class="sr-only">40% Complete (success)</span>
             </div>
           </div>
-
         </div>
       <% end %>
-
-    <% else %>
     <% end %>
-
   </div>
+
   <div class="row">
-    <div class="col-xs-12 sky-header"><h2>你支持的議題</h2></div>
+    <div class="col-xs-12 sky-header"><h2>支持的議題</h2></div>
     <div class="col-xs-6">
       <h3>議題名稱</h3>
     </div>
@@ -36,6 +33,7 @@
       <h3>關注人數</h3>
     </div>
   </div>
+
   <div class="row">
     <ul>
       <div class="spacing"></div>
@@ -47,10 +45,11 @@
       <% end %>
     </ul>
   </div>
+
   <div class="row">
 
-    <div class="col-xs-12 sky-header"><h2>和我有共同關注的民代</h2></div>
-    <% @agent.each do |a|%>
+    <div class="col-xs-12 sky-header"><h2>相關的民代</h2></div>
+    <% @agent.each do |a| %>
     <div class="col-xs-2 text-center user-img">
       <%= image_tag(a.fb_image, :class => "w100p")%>
 
