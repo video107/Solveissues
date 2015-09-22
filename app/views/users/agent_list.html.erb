@@ -2,12 +2,14 @@
   <div class="row">
     <div class="col-xs-12 sky-header"><h2>目前民代總人數: <%= @agent.size %></h2></div>
       <% @agent.each do |agent| %>
-        <div class="col-sm-4 col-xs-2">
-          <%= agent.name %> <br>
-          <%= agent.description %> <br>
-          <%= link_to "支持的議題數 #{agent.votes.count}", user_path(agent) %> <br>
-          與你共同的議題數 <%= agent.votes.select{ |i| @user_issues.map(&:id).include?(i.issue_id) }.size %>
-        </div>
+        <a href=<%= user_path(agent) %>>
+          <div class="col-sm-4 col-xs-2">
+            <%= agent.name %> <br>
+            <%= agent.description %> <br>
+            支持議題數:<%= agent.votes.count %> <br>
+            與你共同的議題數 <%= agent.votes.select{ |i| @user_issues.map(&:id).include?(i.issue_id) }.size %>
+          </div>
+        </a>
       <% end %>
   </div>
 </div>
