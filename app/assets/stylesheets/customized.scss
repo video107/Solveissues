@@ -31,6 +31,9 @@ li {
 
 
 // sky
+.flipy{
+  transform: rotateY(180deg);
+}
 .user-img{
   min-height: 150px;
 }
