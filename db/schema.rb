@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150912111939) do
+ActiveRecord::Schema.define(version: 20150922143043) do
 
   create_table "issues", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 20150912111939) do
     t.datetime "updated_at",                null: false
     t.integer  "votes_count", limit: 4
   end
+
+  create_table "likes", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "agent_id",   limit: 4
+    t.boolean  "like",       limit: 1
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "likes", ["agent_id"], name: "index_likes_on_agent_id", using: :btree
+  add_index "likes", ["user_id"], name: "index_likes_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255,   default: "", null: false

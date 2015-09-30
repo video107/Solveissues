@@ -50,12 +50,15 @@
 
     <div class="col-xs-12 sky-header"><h2>相關的民代</h2></div>
     <% @agent.each do |a| %>
-    <div class="col-xs-2 text-center user-img">
-      <%= image_tag(a.fb_image, :class => "w100p")%>
+      <% same_issue = a.votes.select{ |i| @user_issues.map(&:id).include?(i.issue_id) }.size %>
+      <% if same_issue > 0 %>
+        <div class="col-xs-2 text-center user-img">
+          <%= image_tag(a.fb_image, :class => "w100p")%>
 
-      <p class = "user-name"><%= a.name %></p>
-      <div class = "user-name">共同關注議題: <%= a.votes.select{ |i| @user_issues.map(&:id).include?(i.issue_id) }.size %></div>
-    </div>
+          <p class = "user-name"><%= a.name %></p>
+          <div class = "user-name">共同關注議題: <%= a.votes.select{ |i| @user_issues.map(&:id).include?(i.issue_id) }.size %></div>
+        </div>
+      <% end %>
     <% end %>
 
   </div>
