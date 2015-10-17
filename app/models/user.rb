@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-        :confirmable
+
 
   devise :omniauthable, :omniauth_providers => [:facebook]
 
@@ -23,12 +23,6 @@ class User < ActiveRecord::Base
      user.password = Devise.friendly_token[0,20]
      user.fb_image = auth.info.image # assuming the user model has an image
     end
-    # if auth.credentials
-    #   user.fb_access_token = auth.credentials.token
-    #   user.fb_expires_at = Time.at(auth.credentials.expires_at)
-    # end
-    # user.save
-    # user
   end
 
 
