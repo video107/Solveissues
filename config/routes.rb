@@ -7,9 +7,10 @@ Rails.application.routes.draw do
 
   get 'support' => 'votes#create', :as => :support
   delete 'unsupport' => 'votes#destroy', :as => :unsupport
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   devise_scope :user do
+    # get 'sign_in', :to => 'devise/sessions#new', :as => :new_user_session
     get 'sign_out', :to => 'devise/sessions#destroy', :as => :des_user_session
   end
 

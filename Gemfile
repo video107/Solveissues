@@ -40,6 +40,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'pg'
 gem 'rails_12factor', group: :production
 
+gem 'faraday'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
