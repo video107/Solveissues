@@ -11,20 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151017070010) do
+ActiveRecord::Schema.define(version: 20151018070409) do
 
   create_table "election_records", force: :cascade do |t|
-    t.integer  "user_id",      limit: 4
-    t.string   "category",     limit: 255, null: false
-    t.string   "onwork_title", limit: 255
-    t.string   "electorate",   limit: 255
-    t.string   "party",        limit: 255
-    t.date     "vote_date"
-    t.integer  "result",       limit: 4
+    t.integer  "user_id",         limit: 4
+    t.string   "category",        limit: 255, null: false
+    t.string   "onwork_title",    limit: 255
+    t.string   "electorate",      limit: 255
+    t.string   "party",           limit: 255
     t.date     "period_start"
     t.date     "period_end"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "election_result", limit: 255
+    t.integer  "election_id",     limit: 4
+    t.string   "note",            limit: 255
+  end
+
+  add_index "election_records", ["election_id"], name: "index_election_records_on_election_id", using: :btree
+
+  create_table "elections", force: :cascade do |t|
+    t.string "name",        limit: 255
+    t.date   "vote_date"
+    t.string "description", limit: 255
   end
 
   create_table "issues", force: :cascade do |t|
