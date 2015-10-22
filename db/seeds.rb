@@ -8,7 +8,7 @@ puts '產生選舉資料'
 
 puts '產生真實民代資料'
 require 'csv'
-arrs = CSV.read("config/Representation.csv")
+arrs = CSV.read("config/representation.csv")
 arrs[1..arrs.length].each do |row|
 
   user = User.find_or_initialize_by(name: row[0].to_s)
