@@ -26,10 +26,12 @@ namespace :dev do
   end
 
   task :user_vote => :environment do
+    Vote.delete_all
     User.all.each {|u|
       inserts =[]
       hash = {}
-      Issue.all.sample(10).each{|i|
+      u.role == 1 ? times = [10,13,15,17,20].sample : times = [3,5,7,9,11].sample
+      Issue.all.sample(times).each{|i|
         hash = {:user => u, :issue => i}
         inserts.push hash
       }
