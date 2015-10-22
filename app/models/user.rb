@@ -2,14 +2,12 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
-        :confirmable
-
-  devise :omniauthable, :omniauth_providers => [:facebook]
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, :omniauth_providers => [:facebook]
 
   has_many :votes, :dependent => :destroy
   has_many :vote_issues, through: :votes, source: :issue, :dependent => :destroy
-
+  has_many :election_records
 
   has_attached_file :photo, :styles => { :large => "600x600>", :medium => "300x300>", :small => "250x250>", :thumb => "100x100>",:special => "70x70>" }, :default_url => "/images/:style/missing.png"
   # :path => ":rails_root/public/system/menus/:attachment/:id_partition/:style/:filename"
@@ -21,16 +19,26 @@ class User < ActiveRecord::Base
      user.email = auth.info.email
      user.fb_uid = auth.uid
      user.password = Devise.friendly_token[0,20]
-     user.fb_image = auth.info.image # assuming the user model has an image
+     user.fb_image = auth.info.image
+     user.gender = auth.extra.raw_info.gender
+     user.birthday = auth.info.birthday
+     user.register_homecity = auth.info.hometown
+     user.fb_access_token = auth.credentials.token
+     logger.info auth
     end
-    # if auth.credentials
-    #   user.fb_access_token = auth.credentials.token
-    #   user.fb_expires_at = Time.at(auth.credentials.expires_at)
-    # end
-    # user.save
-    # user
   end
 
+  def self.get_fb_data(access_token)
+    conn = Faraday.new(:url => 'https://graph.facebook.com')
+    res = conn.get '/v2.5/me', { :access_token => access_token }
+    byebug
+    if res.status == 200
+      JSON.parse( res.body )
+    else
+      Rails.logger.warn(res.body)
+      nil
+    end
+  end
 
   def self.new_with_session(params, session)
     super.tap do |user|

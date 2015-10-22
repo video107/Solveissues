@@ -11,7 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922143043) do
+ActiveRecord::Schema.define(version: 20151018070409) do
+
+  create_table "election_records", force: :cascade do |t|
+    t.integer  "user_id",         limit: 4
+    t.string   "category",        limit: 255, null: false
+    t.string   "onwork_title",    limit: 255
+    t.string   "electorate",      limit: 255
+    t.string   "party",           limit: 255
+    t.date     "period_start"
+    t.date     "period_end"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "election_result", limit: 255
+    t.integer  "election_id",     limit: 4
+    t.string   "note",            limit: 255
+  end
+
+  add_index "election_records", ["election_id"], name: "index_election_records_on_election_id", using: :btree
+
+  create_table "elections", force: :cascade do |t|
+    t.string "name",        limit: 255
+    t.date   "vote_date"
+    t.string "description", limit: 255
+  end
 
   create_table "issues", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -34,18 +57,18 @@ ActiveRecord::Schema.define(version: 20150922143043) do
   add_index "likes", ["user_id"], name: "index_likes_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255,   default: "", null: false
-    t.string   "encrypted_password",     limit: 255,   default: "", null: false
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
     t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,     default: 0,  null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "fb_image",               limit: 255
     t.string   "fb_uid",                 limit: 255
     t.string   "fb_access_token",        limit: 255
@@ -62,7 +85,9 @@ ActiveRecord::Schema.define(version: 20150922143043) do
     t.integer  "photo_file_size",        limit: 4
     t.datetime "photo_updated_at"
     t.string   "name",                   limit: 255
-    t.text     "description",            limit: 65535
+    t.string   "register_homecity",      limit: 255
+    t.date     "birthday"
+    t.string   "gender",                 limit: 255
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree

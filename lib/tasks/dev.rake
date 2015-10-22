@@ -3,74 +3,73 @@ namespace :dev do
   country = %w[台北市 基隆市 新北市 連江縣 宜蘭縣 新竹市 新竹縣 桃園縣 苗栗縣 台中市 彰化縣 南投縣 嘉義市 嘉義縣 雲林縣 台南市 高雄市 澎湖縣 金門縣 屏東縣 台東縣 花蓮縣]
   usrenames = %w[零加隆 王晶平 馬一九 無思哇 花媽 沒勝文 扁扁 賴德德 波多野結衣 志玲姐姐 陳小刀 賭神 賭聖 習老大 喔爸爸 東拉蕊 吳中憲]
 
-  task :demo_data => :environment do
-    User.delete_all
-    Issue.delete_all
+
+
+  # OK
+  task :mass_user => :environment do
+    CONN = ActiveRecord::Base.connection
+    inserts = []
+    time = Time.now.to_s(:db)
+    a = User.all.count
+    (a..a + 10000).each do |n|
+      # 避免email重覆
+      email = "a#{n}@email.com"
+      inserts.push %Q{('#{email}', '12345678', 0, '#{country.sample}', '#{Faker::Avatar.image}', '#{Faker::Internet.user_name}', '#{time}', '#{time}')}
+    end
+    sql = "INSERT INTO users (email, encrypted_password, role, country, fb_image, name, created_at, updated_at) VALUES #{inserts.join(", ")}"
+    begin
+      CONN.execute sql
+      puts '新增 1萬筆 User'
+    rescue
+      puts '失敗'
+    end
+  end
+
+  task :user_vote => :environment do
     Vote.delete_all
-    puts '清除user, issue, vote'
-    puts 'add 100 選民'
-    puts 'add 30  民代'
-    puts 'add 100 議題'
-    puts 'add 1000 議題vote'
+    User.all.each {|u|
+      inserts =[]
+      hash = {}
+      u.role == 1 ? times = [10,13,15,17,20].sample : times = [3,5,7,9,11].sample
+      Issue.all.sample(times).each{|i|
+        hash = {:user => u, :issue => i}
+        inserts.push hash
+      }
+      vote = Vote.create(inserts)
+    }
+    puts "每人投10票"
+  end
 
-    100.times do |i|
-        puts "fake 選民+議題 #{i}"
-        user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: 0, country: country.sample, :fb_image => Faker::Avatar.image, :name => Faker::Name.name)
-        issue = Issue.create!( title:  Faker::App.name,
-                      :description => Faker::Lorem.paragraph,
-                      :creator => user.id  )
-        Vote.create!(user: user, issue: issue)
-    end
 
-    30.times do |i|
-      puts "fake 民代 #{i}"
-      user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: 1, country: country.sample, :fb_image => Faker::Avatar.image, :name => usrenames.sample)
-    end
+  task :create_seed_elections => :environment do
+    Election.create(:name => "2014-九合一選舉", :vote_date => "2014/11/29")
+    Election.create(:name => "2016-第14任總統大選", :vote_date => "2016/01/16")
+    Election.create(:name => "2012-第13任總統大選", :vote_date => "2012/01/14")
+    Election.create(:name => "2010-直轄市市長暨市議員選舉(五都選舉)", :vote_date => "2010/11/27")
+    Election.create(:name => "2015-第8屆立委缺額補選", :description => "南投縣第2選區、屏東縣第3選區、臺中市第6選區、彰化縣第4選區、苗栗縣第2選區" , :vote_date => "2014/2/7")
+    Election.create(:name => "2013-第8屆立委臺中市第2選區缺額補選", :vote_date => "2013/1/26")
+  end
 
-    1000.times do |i|
+# =========以下為舊的===================
+  task :demo_data => :environment do
+    # 產生 Demo用的基本data
 
-      user = User.all.sample
-      issue = Issue.all.sample
-      vote = Vote.new(:issue => issue, :user => user)
-      if issue.find_vote_by_user(user)
-      else
-        vote.save!
-        puts "fake 議題vote #{vote.id}"
+    ActiveRecord::Base.transaction do
+      puts '產生10000個選民'
+      10.times do |i|
+          user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: 0, country: country.sample, :fb_image => Faker::Avatar.image, :name => Faker::Name.name)
+          Vote.create!(user: user, issue: Issue.all.sample)
+      end
+      puts '產生40000筆投票'
+      30.times do |i|
+        user = User.all.sample
+        issue = Issue.all.sample
+        vote = Vote.new(:issue => issue, :user => user)
+        vote.save! unless issue.find_vote_by_user(user)
       end
     end
 
   end
 
-  task :login_account => :environment do
-    puts 'agent@gmail / someone@gmail / pw:12345678'
-
-    user = User.create(:email =>'agent@gmail.com', :password => "12345678",role: 1, country: country.sample, :fb_image => Faker::Avatar.image, :name => usrenames.sample)
-    user = User.create(:email =>'someone@gmail.com', :password => "12345678",role: 0, country: country.sample, :fb_image => Faker::Avatar.image, :name => usrenames.sample)
-
-  end
-
-  task :fake3 => :environment do
-    100.times do |i|
-      puts "create normal user #{i}"
-      user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: 0, country: country.sample, :fb_image => Faker::Avatar.image, :name => Faker::Name.name)
-      issue = Issue.create!( title:  Faker::App.name,
-                    :description => Faker::Lorem.paragraph,
-                    :creator => user.id  )
-    end
-  end
-
-
-  task :fake4 => :environment do
-    500.times do |i|
-      puts "create 議題vote #{i}"
-      user = User.all.sample
-      issue = Issue.all.sample
-      vote = Vote.new(:issue => issue, :user => user)
-      if issue.find_vote_by_user(user)
-      else
-        vote.save!
-      end
-    end
-  end
 
 end

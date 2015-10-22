@@ -5,7 +5,7 @@
         <a href=<%= user_path(agent) %>>
           <div class="col-sm-4 col-xs-2">
             <%= agent.name %> <br>
-            <%= agent.description %> <br>
+            <!-- 待新增民代職務名稱，此部份需要新增 job model -->
             支持議題數:<%= agent.votes.count %> <br>
 
             與你共同的議題數 <%= current_user ? agent.votes.select{ |i| @user_issues.map(&:id).include?(i.issue_id) }.size : 0 %> <br>

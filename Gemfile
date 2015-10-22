@@ -34,11 +34,12 @@ gem "omniauth-facebook"
 gem 'ransack'
 gem 'paperclip'
 gem "letter_opener", :group => :development
-gem 'jbuilder', '~> 2.0'
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'pg'
 gem 'rails_12factor', group: :production
+
+gem 'faraday'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
