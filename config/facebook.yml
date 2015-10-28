@@ -7,5 +7,5 @@ test:
   secret:
 
 production:
-  app_id:
-  secret:
+  app_id: 1617268928534717
+  secret: 5a0e9ba07982c725900d883f4b87d44a

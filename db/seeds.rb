@@ -8,7 +8,7 @@ puts '產生選舉資料'
 
 puts '產生真實民代資料'
 require 'csv'
-arrs = CSV.read("data/Representation.csv")
+arrs = CSV.read("config/representation.csv")
 arrs[1..arrs.length].each do |row|
 
   user = User.find_or_initialize_by(name: row[0].to_s)
@@ -34,7 +34,7 @@ arrs[1..arrs.length].each do |row|
 end
 
 puts '產生議題資料'
-issues = CSV.read("data/demoissues.csv")
+issues = CSV.read("config/demoissues.csv")
 issues[1..issues.length].each do |row|
   issue = Issue.create(title: row[0], description: row[1], creator: User.all.sample)
 end
