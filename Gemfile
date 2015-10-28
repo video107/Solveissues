@@ -41,6 +41,8 @@ gem 'rails_12factor', group: :production
 
 gem 'faraday'
 
+gem 'acts_as_votable'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
