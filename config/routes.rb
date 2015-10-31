@@ -14,9 +14,17 @@ Rails.application.routes.draw do
     get 'sign_out', :to => 'devise/sessions#destroy', :as => :des_user_session
   end
 
-  resources :users
+  resources :users do
+    member do
+      get "/like" => 'votes#like_user'
+      get "/unlike" => 'votes#unlike_user'
+      get "/dislike" => 'votes#dislike_user'
+    end
+  end
+
   get 'agent_list' => 'users#agent_list'
 
+  # for API
   scope :path => '/api/v1/', :module => "api_v1", :defaults => { :format => :json }, :as => 'v1' do
     post "login" => "auth#login"
     post "logout" => "auth#logout"
