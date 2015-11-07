@@ -8,9 +8,8 @@
       <div class="col-xs-9 text-right"><h4>支持這個議題?</h4></div>
       <div class="col-xs-3 position-right-botton">
         <% if current_user %>
-          <% vote = @issue.find_vote_by_user(current_user) %>
           <div id="like-<%= @issue.id %>" class="text-center">
-            <%= render :partial => "votes/show", :locals => {:issue => @issue, :vote => vote} %>
+            <%= render :partial => "votes/show", :locals => {:issue => @issue} %>
           </div>
         <% else %>
           <%= icon("thumbs-up") %>

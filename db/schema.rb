@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151031033627) do
+ActiveRecord::Schema.define(version: 20151107185322) do
 
   create_table "election_records", force: :cascade do |t|
     t.integer  "user_id",         limit: 4
@@ -44,27 +44,6 @@ ActiveRecord::Schema.define(version: 20151031033627) do
     t.datetime "updated_at",                null: false
     t.integer  "votes_count", limit: 4
   end
-
-  create_table "likes", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.integer  "agent_id",   limit: 4
-    t.boolean  "like",       limit: 1
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "likes", ["agent_id"], name: "index_likes_on_agent_id", using: :btree
-  add_index "likes", ["user_id"], name: "index_likes_on_user_id", using: :btree
-
-  create_table "old_votes", force: :cascade do |t|
-    t.integer  "issue_id",   limit: 4
-    t.integer  "user_id",    limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "old_votes", ["issue_id"], name: "index_old_votes_on_issue_id", using: :btree
-  add_index "old_votes", ["user_id"], name: "index_old_votes_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -106,8 +85,6 @@ ActiveRecord::Schema.define(version: 20151031033627) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "votes", force: :cascade do |t|
-    t.integer  "issue_id",     limit: 4
-    t.integer  "user_id",      limit: 4
     t.integer  "votable_id",   limit: 4
     t.string   "votable_type", limit: 255
     t.integer  "voter_id",     limit: 4
