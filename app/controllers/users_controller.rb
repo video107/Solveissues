@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   def agent_list
     @agent = User.where(role: "1").includes(:votes)
-    current_user ? @user_issues = current_user.vote_issues : User.new.vote_issues
+    # current_user ? @user_issues = current_user.vote_issues : User.new.vote_issues
   end
 
   def agent_show

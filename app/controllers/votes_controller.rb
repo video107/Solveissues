@@ -1,9 +1,9 @@
 class VotesController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :set_issue
 
   def create
+    set_issue
     vote = @issue.find_vote_by_user(current_user)
 
     unless vote
@@ -30,6 +30,7 @@ class VotesController < ApplicationController
   end
 
   def destroy
+    set_issue
     @vote = current_user.votes.find(params[:id])
     @vote.destroy
     @vote = nil
@@ -52,12 +53,31 @@ class VotesController < ApplicationController
   #   end
   # end
 
+  def agent_list
+    @agent = User.where(role: "1").includes(:votes)
+    # current_user ? @user_issues = current_user.vote_issues : User.new.vote_issues
+  end
+
+  def like_user
+    @agent = User.find(params[:id])
+    @agent.liked_by current_user
+  end
+
+  def dislike_user
+    @agent = User.find(params[:id])
+    @agent.disliked_by current_user
+    render :like_user
+  end
+
+  def unlike_user
+    @agent = User.find(params[:id])
+    @agent.unliked_by current_user
+  end
 
 private
 
   def set_issue
     @issue = Issue.find(params[:issue_id])
   end
-
 
 end

@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'agent_list' => 'users#agent_list'
+  get 'agent_list' => 'votes#agent_list'
 
   # for API
   scope :path => '/api/v1/', :module => "api_v1", :defaults => { :format => :json }, :as => 'v1' do
