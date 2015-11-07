@@ -2,6 +2,12 @@ class VotesController < ApplicationController
 
   before_action :authenticate_user!
 
+  # Pages
+  def agent_list
+    @agent = User.where(role: "1").includes(:votes)
+    # current_user ? @user_issues = current_user.vote_issues : User.new.vote_issues
+  end
+
   def create
     set_issue
     vote = @issue.find_vote_by_user(current_user)
@@ -33,9 +39,17 @@ class VotesController < ApplicationController
     end
   end
 
-  def agent_list
-    @agent = User.where(role: "1").includes(:votes)
-    # current_user ? @user_issues = current_user.vote_issues : User.new.vote_issues
+  #Ajax
+
+  def support_issue
+    @issue = Issue.find(params[:id])
+    @issue.liked_by current_user
+  end
+
+  def unsupport_issue
+    @issue = Issue.find(params[:id])
+    @issue.unliked_by current_user
+    render :support_issue
   end
 
   def like_user

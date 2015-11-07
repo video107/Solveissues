@@ -3,10 +3,14 @@ Rails.application.routes.draw do
   root 'issues#index'
   resources :issues do
     resources :votes
+    member do
+      get "/support" => 'votes#support_issue'
+      get "/unsupport" => 'votes#unsupport_issue'
+    end
   end
 
-  get 'support' => 'votes#create', :as => :support
-  delete 'unsupport' => 'votes#destroy', :as => :unsupport
+  # get 'support' => 'votes#create', :as => :support
+  # delete 'unsupport' => 'votes#destroy', :as => :unsupport
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   devise_scope :user do
