@@ -17,16 +17,6 @@ class VotesController < ApplicationController
         render :template => "votes/ajax"
       }
     end
-
-
-    # if current_user.votes.find_by_issue_id(params[:issue_id])
-    #   @vote = current_user.votes.create(:issue_id => params[:issue_id])
-    #   @issue_id = params[:issue_id]
-    #   respond_to do |format|
-    #     format.html
-    #     format.js
-    #   end
-    # end
   end
 
   def destroy
@@ -42,16 +32,6 @@ class VotesController < ApplicationController
       }
     end
   end
-  #   @vote = current_user.votes.find_by_issue_id(params[:issue_id])
-  #   if @vote
-  #     @vote.destroy
-  #     @issue_id = params[:issue_id]
-  #     respond_to do |format|
-  #       format.html
-  #       format.js{ }
-  #     end
-  #   end
-  # end
 
   def agent_list
     @agent = User.where(role: "1").includes(:votes)
