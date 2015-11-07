@@ -16,7 +16,7 @@
           <% @issues.each do |issue| %>
           <tr>
             <td><%= link_to issue.title, issue %></td>
-            <td id="count-<%= issue.id %>"><%= issue.get_likes.size %></td>
+            <td id="count-<%= issue.id %>"><%= issue.find_votes_for.size %></td>
             <td>
               <div id="like-<%= issue.id %>" class="text-align">
                 <%= render :partial => "votes/show", :locals => {:issue => issue} %>

@@ -1,4 +1,5 @@
-<% if current_user.voted_for? issue %>
+<% current_user.role == 1 ? (v = current_user.voted_for? issue, :vote_scope => 'agent') : (v = current_user.voted_for? issue) %>
+<% if v %>
    <%= link_to unsupport_issue_path(issue), :class => "btn btn-primary", :remote =>true do%>
      <%= icon("thumbs-up") %>
    <% end %>
