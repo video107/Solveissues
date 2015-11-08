@@ -33,7 +33,6 @@ class User < ActiveRecord::Base
   def self.get_fb_data(access_token)
     conn = Faraday.new(:url => 'https://graph.facebook.com')
     res = conn.get '/v2.5/me', { :access_token => access_token }
-    byebug
     if res.status == 200
       JSON.parse( res.body )
     else

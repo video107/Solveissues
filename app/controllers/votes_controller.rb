@@ -5,7 +5,12 @@ class VotesController < ApplicationController
   # Pages
   def agent_list
     @agent = User.where(role: "1").includes(:votes)
+    @user_issues = current_user.find_voted_items(:votable_type => 'Issue')
+
     # current_user ? @user_issues = current_user.vote_issues : User.new.vote_issues
+
+    # way1
+    # Vote.where( :scope => "agent" ).group_by
   end
 
   def create
