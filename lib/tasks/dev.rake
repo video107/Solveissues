@@ -31,8 +31,19 @@ namespace :dev do
       inserts =[]
       hash = {}
       u.role == 1 ? times = [5,10,15,20,25,35].sample : times = [3,5,7,9,11].sample
+      if u.role == 1
+        times = [5,10,15,20,25,35].sample
+        vote_scope = "agent"
+      else
+        times = [3,5,7,9,11].sample
+        vote_scope = nil
+      end
+
       Issue.all.sample(times).each{|i|
-        hash = {:user => u, :issue => i}
+        # hash = {:user => u, :issue => i}
+        hash = {:voter_type => "User", :voter_id => u.id, :votable_type => "Issue", :votable_id => i.id, :vote_scope => vote_scope,
+          :vote_weight => 1, :vote_flag => true
+        }
         inserts.push hash
       }
       vote = Vote.create(inserts)
