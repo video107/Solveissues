@@ -15,5 +15,7 @@
 /log/*
 !/log/.keep
 /tmp
-config/*.yml
+/config/database.yml
+/config/secret.yml
+/config/facebook.yml
 /.DS_Store
