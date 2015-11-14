@@ -8,9 +8,10 @@ namespace :dev do
   task :agent_history => :environment do
     puts "產生一個月名聲紀錄"
     AgentHistory.delete_all
-    146.times do |x|
+    agents = User.where(:role => 1)
+    agents.each do |x|
       30.times do |i|
-        history_data = AgentHistory.create(:user_id => (10003 + x), :date => i.days.ago, :likes => Faker::Number.number(3))
+        history_data = AgentHistory.create(:user_id => x.id, :date => i.days.ago, :likes => Faker::Number.number(3))
       end
     end
   end
