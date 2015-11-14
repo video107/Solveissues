@@ -1,4 +1,17 @@
 <div class="container">
+
+  <div class="row history-chart">
+    <div class="ct-chart ct-golden-section" id="chart1"></div>
+
+    <script>
+      new Chartist.Line('#chart1', {
+        labels: ["11/14", "11/15", "11/16", "11/17"],
+        series: [[100, 120, 180, 200]]
+      });
+    </script>
+
+  </div>
+
   <div class="row">
 
     <% if @user.role == 1 && @user == current_user %>
