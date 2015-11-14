@@ -11,7 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 20151114054231) do
 
   # These are extensions that must be enabled in order to support this database
@@ -51,15 +50,15 @@ ActiveRecord::Schema.define(version: 20151114054231) do
   end
 
   create_table "information", force: :cascade do |t|
-    t.integer  "user_id",           limit: 4
-    t.string   "party",             limit: 255
-    t.string   "job",               limit: 255
-    t.string   "party_job",         limit: 255
-    t.text     "experience",        limit: 65535
-    t.string   "election_position", limit: 255
-    t.string   "election_area",     limit: 255
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.integer  "user_id"
+    t.string   "party"
+    t.string   "job"
+    t.string   "party_job"
+    t.text     "experience"
+    t.string   "election_position"
+    t.string   "election_area"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   add_index "information", ["user_id"], name: "index_information_on_user_id", using: :btree
