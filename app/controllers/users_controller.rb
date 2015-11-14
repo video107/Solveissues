@@ -46,7 +46,7 @@ private
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :description, :country)
+    params.require(:user).permit(:name, :email, :description, :country, :information_attributes => [:party, :job, :party_job, :experience, :election_position, :experience, :election_area])
   end
 
 
