@@ -5,6 +5,16 @@ namespace :dev do
 
   task :test_db_rebuild => ['db:drop:all', 'db:create', 'db:migrate', 'db:seed', 'dev:mass_user', 'dev:user_vote']
 
+  task :agent_history => :environment do
+    puts "產生一個月名聲紀錄"
+    AgentHistory.delete_all
+    146.times do |x|
+      30.times do |i|
+        history_data = AgentHistory.create(:user_id => (10003 + x), :date => i.days.ago, :likes => Faker::Number.number(3))
+      end
+    end
+  end
+
   # OK
   task :mass_user => :environment do
     CONN = ActiveRecord::Base.connection
