@@ -1,4 +1,15 @@
+<script type="text/javascript">
+  var word_array = <%= raw @tag_cloud.to_json.html_safe %>;
+
+  $(function() {
+    $("#tag-cloud").jQCloud(word_array);
+  });
+</script>
+
 <div class="container">
+  
+  <div id="tag-cloud"></div>
+
   <div class="row">
 
     <table class="table table-striped">
