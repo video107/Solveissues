@@ -50,3 +50,17 @@ issues = CSV.read("config/demoissues.csv")
 issues[1..issues.length].each do |row|
   issue = Issue.create(title: row[0], description: row[1], creator: User.all.sample)
 end
+
+puts '產生標籤'
+tags = CSV.read("config/tags.csv")
+tags[1..tags.length].each do |row|
+  tags = Tag.create(name: row[0])
+end
+
+
+
+
+
+
+
+
