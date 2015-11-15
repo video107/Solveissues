@@ -6,9 +6,7 @@
       <p><%= @issue.description %></p>
       <br>
       <p> 標籤：
-        <% @issue.tags.each do |x| %>
-          <%= link_to x.name, '#', :class => "btn btn-default btn-xs" %>
-        <% end %>
+        <%= render :partial => "issue_tags", collection: @issue.tags, as: :tag %>
       </p>
       <legend></legend>
       <div class="col-xs-9 text-right"><h4>支持這個議題?</h4></div>

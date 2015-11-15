@@ -21,11 +21,7 @@ class Issue < ActiveRecord::Base
     arr.delete_if{ |x| x.blank? }
 
     self.tags = arr.map do |t|
-      tag = Tag.find_by_name(t)
-      unless tag
-        tag = Tag.create!( :name => t )
-      end
-      tag
+      tag = Tag.find_or_create_by(name: t)
     end
   end
 
