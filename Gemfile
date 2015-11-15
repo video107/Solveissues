@@ -44,7 +44,7 @@ gem 'acts_as_votable'
 
 gem 'capistrano-rails', :group => :development
 gem 'capistrano-passenger', :group => :development
-
+gem 'whenever', :require => false
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
