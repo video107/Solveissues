@@ -68,18 +68,39 @@ class VotesController < ApplicationController
 
   def like_user
     @agent = User.find(params[:id])
-    @agent.liked_by current_user
+    @latest_agent_vote = LatestAgentVote.find_by(:agent_id=>@agent.id, :user_id=>current_user.id)
+
+    if @latest_agent_vote
+      @latest_agent_vote.value = 1
+      @latest_agent_vote.save
+    else
+      LatestAgentVote.create(:agent_id=>@agent.id, :user_id=>current_user.id, :value => 1)
+    end
+    redirect_to agent_list_path
   end
 
   def dislike_user
     @agent = User.find(params[:id])
-    @agent.disliked_by current_user
-    render :like_user
+    @latest_agent_vote = LatestAgentVote.find_by(:agent_id=>@agent.id, :user_id=>current_user.id)
+
+    if @latest_agent_vote
+      @latest_agent_vote.value = -1
+      @latest_agent_vote.save
+    else
+      LatestAgentVote.create(:agent_id=>@agent.id, :user_id=>current_user.id, :value => -1)
+    end
+    redirect_to agent_list_path
   end
 
   def unlike_user
     @agent = User.find(params[:id])
-    @agent.unliked_by current_user
+    @latest_agent_vote = LatestAgentVote.find_by(:agent_id=>@agent.id, :user_id=>current_user.id)
+
+    if @latest_agent_vote
+      @latest_agent_vote.destroy
+    end
+
+    redirect_to agent_list_path
   end
 
 private

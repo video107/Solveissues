@@ -52,13 +52,13 @@ private
   end
 
   def get_history_likes
-    @likes_history = AgentHistory.where(:user_id => @user)
-    @likes = Array.new
-    @date = Array.new
+    @likes_history = HistoricalAgentVote.where(:agent_id => @user)
+    @likes = []
+    @date = []
 
-    @likes_history.each do |x|  
-      @likes.push(x.likes.to_i)
-      @date.push(x.date.to_s)
+    @likes_history.each do |x|
+      @likes.push((x.likes_count - x.dislikes_count).to_i)
+      @date.push(x.vote_date.to_s)
     end
   end
 

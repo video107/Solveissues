@@ -21,19 +21,12 @@
 
               </td>
               <td id = "agent-vote-<%= agent.id %>">
-              <%= agent.get_likes.size - agent.get_dislikes.size %> ,
-              <%= link_to icon("thumbs-up"), like_user_path(agent), :remote => true %>
-              <%=
-                case current_user.voted_as_when_voted_for agent
-                when nil
-                  "-"
-                when true
-                  "贊"
-                else false
-                  "噓"
-                end
-              %>
-              <%= link_to icon_flipy("thumbs-down"), dislike_user_path(agent), :remote => true %>
+              <%= reputation(agent) %> ,
+              <%= link_to "讚拉", like_user_path(agent), :class=>"btn #{vote?(agent, 1)} btn-xs"%>
+              ｜
+              <%= link_to "下台拉", dislike_user_path(agent), :class=>"btn #{vote?(agent, -1)} btn-xs"%>
+              ｜
+              <%= link_to "沒意見拉", unlike_user_path(agent)%>
               </td>
             </tr>
           <% end %>

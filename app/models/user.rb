@@ -18,6 +18,9 @@ class User < ActiveRecord::Base
   acts_as_voter
   acts_as_votable
 
+  has_many :latest_agent_votes, :dependent => :destroy
+  has_many :vote_to_agents, :through => :latest_agent_votes, :source => :agent
+
   def self.from_omniauth(auth)
     where(fb_uid: auth.uid).first_or_create do |user|
      user.email = auth.info.email
