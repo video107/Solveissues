@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20151115033704) do
     t.integer  "votes_count"
   end
 
+
   create_table "latest_agent_votes", force: :cascade do |t|
     t.integer  "value"
     t.integer  "user_id"
@@ -104,6 +105,26 @@ ActiveRecord::Schema.define(version: 20151115033704) do
   end
 
   add_index "latest_issue_votes", ["user_id", "issue_id"], name: "index_latest_issue_votes_on_user_id_and_issue_id", using: :btree
+
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "tag_id",     null: false
+    t.integer  "issue_id",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "taggings", ["issue_id"], name: "index_taggings_on_issue_id", using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name",                    null: false
+    t.integer  "issue_count", default: 0, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "tags", ["issue_count"], name: "index_tags_on_issue_count", using: :btree
+
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

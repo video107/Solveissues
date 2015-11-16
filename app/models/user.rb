@@ -13,8 +13,12 @@ class User < ActiveRecord::Base
   has_many :latest_issue_votes, dependent: :destroy
   has_many :like_issues, through: :latest_issue_votes, source: :issue, dependent: :destroy
 
+  has_many :latest_agent_votes, :dependent => :destroy
+  has_many :vote_to_agents, :through => :latest_agent_votes, :source => :agent
+
 
   has_many :election_records
+  has_many :issues, :foreign_key => "creator"
   has_one :information, :dependent => :destroy
   accepts_nested_attributes_for :information, :allow_destroy => true, :reject_if => :all_blank
 

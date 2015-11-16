@@ -34,6 +34,7 @@ gem "omniauth-facebook"
 gem 'ransack'
 gem 'paperclip'
 gem "letter_opener", :group => :development
+gem "select2-rails"
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'pg'
@@ -44,7 +45,7 @@ gem 'acts_as_votable'
 
 gem 'capistrano-rails', :group => :development
 gem 'capistrano-passenger', :group => :development
-
+gem 'whenever', :require => false
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
