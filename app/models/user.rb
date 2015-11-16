@@ -7,6 +7,13 @@ class User < ActiveRecord::Base
 
   has_many :votes, :dependent => :destroy
   has_many :vote_issues, through: :votes, source: :issue, :dependent => :destroy
+
+
+  # Liked issues of user
+  has_many :latest_issue_votes, dependent: :destroy
+  has_many :like_issues, through: :latest_issue_votes, source: :issue, dependent: :destroy
+
+
   has_many :election_records
   has_one :information, :dependent => :destroy
   accepts_nested_attributes_for :information, :allow_destroy => true, :reject_if => :all_blank
@@ -17,6 +24,18 @@ class User < ActiveRecord::Base
 
   acts_as_voter
   acts_as_votable
+
+  def toggle_like(issue)
+    if self.like_issue?(issue)
+      self.like_issues.delete(issue)
+    else
+      self.like_issues << issue
+    end
+  end
+
+  def like_issue?(issue)
+    self.like_issues.include?(issue)
+  end
 
   def self.from_omniauth(auth)
     where(fb_uid: auth.uid).first_or_create do |user|

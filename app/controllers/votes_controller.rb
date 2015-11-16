@@ -47,25 +47,6 @@ class VotesController < ApplicationController
 
   #Ajax
 
-  def support_issue
-    @issue = Issue.find(params[:id])
-    if current_user.role == 1
-      @issue.liked_by current_user, :vote_scope => "agent"
-    else
-      @issue.liked_by current_user
-    end
-  end
-
-  def unsupport_issue
-    @issue = Issue.find(params[:id])
-    if current_user.role == 1
-      @issue.unliked_by current_user, :vote_scope => "agent"
-    else
-      @issue.unliked_by current_user
-    end
-    render :support_issue
-  end
-
   def like_user
     @agent = User.find(params[:id])
     @agent.liked_by current_user

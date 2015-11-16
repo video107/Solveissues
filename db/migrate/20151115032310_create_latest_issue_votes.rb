@@ -1,7 +1,6 @@
 class CreateLatestIssueVotes < ActiveRecord::Migration
   def change
     create_table :latest_issue_votes do |t|
-      t.integer :value
       t.integer :user_id
       t.integer :issue_id
 

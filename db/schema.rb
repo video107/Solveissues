@@ -97,7 +97,6 @@ ActiveRecord::Schema.define(version: 20151115033704) do
   add_index "latest_agent_votes", ["user_id", "agent_id"], name: "index_latest_agent_votes_on_user_id_and_agent_id", using: :btree
 
   create_table "latest_issue_votes", force: :cascade do |t|
-    t.integer  "value"
     t.integer  "user_id"
     t.integer  "issue_id"
     t.datetime "created_at", null: false
