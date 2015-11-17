@@ -5,11 +5,11 @@
     <%else%>
       <%=@user.name%>
     <%end%>
-  </h1> 
+  </h1>
 
   <%if @user.role == 1%>
     <div class="fb-share-button" data-href="<%=user_path(@user)%>" data-layout="button_count"></div>
-  
+
     <div class="row history-chart">
       <div class="col-xs-12 sky-header"><h2>歷史名聲紀錄</h2></div>
       <div class="col-xs-12">
@@ -69,7 +69,7 @@
       <div class="spacing"></div>
       <% @user_issues.each do |issue| %>
       <li class="col-xs-6"><%= link_to issue.title, issue_path(issue) %></li>
-      <li class="col-xs-6 pull-left"><%= issue.find_votes_for.size %></li>
+      <li class="col-xs-6 pull-left"><%= issue.liked_users.size %></li>
       <br>
       <br>
       <% end %>

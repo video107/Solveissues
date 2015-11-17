@@ -7,7 +7,7 @@
 </script>
 
 <div class="container">
-  
+
   <div id="tag-cloud"></div>
 
   <div class="row">
@@ -27,7 +27,7 @@
           <% @issues.each do |issue| %>
           <tr>
             <td><%= link_to issue.title, issue %></td>
-            <td id="count-<%= issue.id %>"><i><%= issue.liked_users.count %></i></td>
+            <td id="count-<%= issue.id %>"><i><%= issue.liked_users.size %></i></td>
             <td>
               <div id="like-<%= issue.id %>" class="text-align">
               <% if issue.like_by_user?(current_user) %>
@@ -48,7 +48,7 @@
           <% @issues.each do |issue| %>
           <tr>
             <td><%= link_to issue.title, issue %></td>
-            <td id="count-<%= issue.id %>"><i><%= issue.liked_users.count %></i></td>
+            <td id="count-<%= issue.id %>"><i><%= issue.liked_users.size %></i></td>
             <td><%= icon("thumbs-up") %></td>
           </tr>
           <% end %>
