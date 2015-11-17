@@ -17,7 +17,7 @@
               <td><%#= current_user ? agent.votes.select{ |i| @user_issues.map(&:id).include?(i.issue_id) }.size : 0 %>
               <%#= agent.find_votes_for.select{ |i| @user_issues.map(&:id).include?(i.votable_id) && i.votable_type == "Issue" }.size %>
 
-              <%= ( agent.find_voted_items & @user_issues ).size %>
+              <%= agent.number_of_same_issues(@all_agent_issues, @my_issues) %>
 
               </td>
               <td id = "agent-vote-<%= agent.id %>">

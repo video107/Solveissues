@@ -41,6 +41,20 @@ class User < ActiveRecord::Base
     self.like_issues.include?(issue)
   end
 
+  def number_of_same_issues(all_agent_issues, my_issues)
+    sum = 0
+    all_agent_issues.each do |a|
+      if a[0] == self.id
+        my_issues.each do |m|
+          if m[1] == a[1]
+            sum += 1
+          end
+        end
+      end
+    end
+    sum
+  end
+
   def self.from_omniauth(auth)
     where(fb_uid: auth.uid).first_or_create do |user|
      user.email = auth.info.email
