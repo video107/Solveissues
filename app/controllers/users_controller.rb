@@ -51,16 +51,16 @@ private
     params.require(:user).permit(:name, :email, :description, :country, :register_homecity, :birthday, :gender, :information_attributes => [:party, :job, :party_job, :experience, :election_position, :experience, :election_area])
   end
 
-  #def get_history_likes
-  #  @likes_history = AgentHistory.where(:user_id => @user)
-  #  @likes = Array.new
-  #  @date = Array.new
+  def get_history_likes
+    @likes_history = HistoricalAgentVote.where(:agent_id => @user)
+    @likes = []
+    @date = []
 
-  #  @likes_history.each do |x|
-  #    @likes.push(x.likes.to_i)
-  #    @date.push(x.date.to_s)
-  #  end
-  #end
+    @likes_history.each do |x|
+      @likes.push((x.likes_count - x.dislikes_count).to_i)
+      @date.push(x.vote_date.to_s)
+    end
+  end
 
 
 end
