@@ -8,7 +8,6 @@ require 'capistrano/faster_assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/rails'
 require 'capistrano/passenger'
-require "whenever/capistrano"
 # Include tasks from other gems included in your Gemfile
 #
 # For documentation on these, see for example:
