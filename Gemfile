@@ -42,7 +42,7 @@ gem 'pg'
 gem 'faraday'
 
 gem 'acts_as_votable'
-
+gem 'whenever', :require => false
 gem 'capistrano-rails', :group => :development
 gem 'capistrano-passenger', :group => :development
 # Use Capistrano for deployment

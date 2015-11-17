@@ -5,11 +5,11 @@
     <%else%>
       <%=@user.name%>
     <%end%>
-  </h1> 
+  </h1>
 
   <%if @user.role == 1%>
     <div class="fb-share-button" data-href="<%=user_path(@user)%>" data-layout="button_count"></div>
-  
+
     <div class="row history-chart">
       <div class="col-xs-12 sky-header"><h2>歷史名聲紀錄</h2></div>
       <div class="col-xs-12">

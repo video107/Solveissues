@@ -21,7 +21,7 @@
 
               </td>
               <td id = "agent-vote-<%= agent.id %>">
-              <%= reputation(agent) %> ,
+              <%= reputation(agent) %>,
               <%= link_to "讚拉", like_user_path(agent), :class=>"btn #{vote?(agent, 1)} btn-xs"%>
               ｜
               <%= link_to "下台拉", dislike_user_path(agent), :class=>"btn #{vote?(agent, -1)} btn-xs"%>

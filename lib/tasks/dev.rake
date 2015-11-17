@@ -102,7 +102,7 @@ namespace :dev do
 
       time_date = d.day.ago.strftime("%Y-%m-%d")
       d -= 1
-      puts "每個人在#{time_date}向五個立委投票"
+      puts "每個user在#{time_date}向五個立委投票"
 
       User.all.each do |u|
         agent.sample(5).each do |i|
@@ -115,7 +115,7 @@ namespace :dev do
         end
       end
 
-      puts "建立歷史投票記錄 每天"
+      puts "建立歷史投票記錄"
       @agents.each do |agent|
         yes_user = []
         no_user = []
@@ -142,7 +142,7 @@ namespace :dev do
 
 
   task :historical_agent_votes => :environment do
-    puts "建立每日立委投票人數（每日排程）"
+    puts "建立每日立委投票人數（every day 3:00 am）"
     time_date = Time.now.strftime("%Y-%m-%d")
 
     @agents = User.where(:role => 1)

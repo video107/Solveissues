@@ -9,7 +9,6 @@ class UsersController < ApplicationController
     total_user_ids = Vote.where(:votable_id => @user_issues.map(&:id), :votable_type => "Issue").pluck(:voter_id).uniq
     @total_users = User.find( total_user_ids )
     @agents = User.where(:role => 1, :id => total_user_ids).includes(:votes)
-
     # @agent = User.where(role: "1").includes(:votes)
     # @user_issues = @user.vote_issues
 

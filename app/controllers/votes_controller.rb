@@ -1,6 +1,7 @@
 class VotesController < ApplicationController
 
   before_action :authenticate_user!
+  before_action :find_latest_agent_vote, only: [:like_user, :dislike_user, :unlike_user]
 
   # Pages
   def agent_list
@@ -66,10 +67,9 @@ class VotesController < ApplicationController
     render :support_issue
   end
 
-  def like_user
-    @agent = User.find(params[:id])
-    @latest_agent_vote = LatestAgentVote.find_by(:agent_id=>@agent.id, :user_id=>current_user.id)
+  # user_voted_to_agent
 
+  def like_user
     if @latest_agent_vote
       @latest_agent_vote.value = 1
       @latest_agent_vote.save
@@ -80,9 +80,6 @@ class VotesController < ApplicationController
   end
 
   def dislike_user
-    @agent = User.find(params[:id])
-    @latest_agent_vote = LatestAgentVote.find_by(:agent_id=>@agent.id, :user_id=>current_user.id)
-
     if @latest_agent_vote
       @latest_agent_vote.value = -1
       @latest_agent_vote.save
@@ -93,9 +90,6 @@ class VotesController < ApplicationController
   end
 
   def unlike_user
-    @agent = User.find(params[:id])
-    @latest_agent_vote = LatestAgentVote.find_by(:agent_id=>@agent.id, :user_id=>current_user.id)
-
     if @latest_agent_vote
       @latest_agent_vote.destroy
     end
@@ -107,6 +101,11 @@ private
 
   def set_issue
     @issue = Issue.find(params[:issue_id])
+  end
+
+  def find_latest_agent_vote
+    @agent = User.find(params[:id])
+    @latest_agent_vote = LatestAgentVote.find_by(:agent_id=>@agent.id, :user_id=>current_user.id)
   end
 
 end
