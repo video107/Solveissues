@@ -4,22 +4,14 @@ class UsersController < ApplicationController
   before_action :get_history_likes, :only => :show
 
   def show
-    @user_issues = @user.find_voted_items(:votable_type => 'Issue')
+    @user_issues = @user.like_issues
     # @total_users = User.includes(:votes).where("votes.votable_type" => "Issue", "votes.votable_id" => @user_issues.map(&:id))
-    total_user_ids = Vote.where(:votable_id => @user_issues.map(&:id), :votable_type => "Issue").pluck(:voter_id).uniq
-    @total_users = User.find( total_user_ids )
-    @agents = User.where(:role => 1, :id => total_user_ids).includes(:votes)
+    # total_user_ids = Vote.where(:votable_id => @user_issues.map(&:id), :votable_type => "Issue").pluck(:voter_id).uniq
+    total_like_user_ids = LatestIssueVote.where(:issue_id => @user_issues.map(&:id)).pluck(:user_id).uniq
+    # @all_agent_issues = LatestIssueVote.pluck(:user_id, :issue_id)
+    # @my_issues = LatestIssueVote.where(:user_id => current_user.id).pluck(:user_id, :issue_id)
+    @agents = User.where(:role => 1, :id => total_like_user_ids)
 
-    # @agent = User.where(role: "1").includes(:votes)
-    # @user_issues = @user.vote_issues
-
-    # if @user.role == 1
-    #   total_user_ids = Vote.where( :issue_id => @user_issues.map(&:id) ).pluck(:user_id).uniq
-    #   @total_users = User.find( total_user_ids )
-
-    #   #@total_users = User.includes(:votes).where( "votes.issue_id" => @user_issues.map(&:id) )
-    #   #一個query完成
-    # end
   end
 
   def edit
