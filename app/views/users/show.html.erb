@@ -85,7 +85,7 @@
       <div class="col-xs-2 text-center user-img">
         <%= image_tag(agent.fb_image, :class => "w100p")%>
 
-        <p class = "user-name"><%= agent.name %></p>
+        <p> <%=link_to agent.name, user_path(agent), :class=>"user-name"%></p>
         <div class = "user-name">共同關注議題: <%= same_issues.size %></div>
       </div>
     <% end %>
