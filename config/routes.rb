@@ -4,8 +4,7 @@ Rails.application.routes.draw do
   resources :issues do
     resources :votes
     member do
-      get "/support" => 'votes#support_issue'
-      get "/unsupport" => 'votes#unsupport_issue'
+      post :like
     end
   end
 

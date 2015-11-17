@@ -5,14 +5,10 @@ class VotesController < ApplicationController
 
   # Pages
   def agent_list
-    @total_agents = User.where(role: "1").includes(:votes)
+    @total_agents = User.where(role: "1")
     @agents = @total_agents.page(params[:page]).per(10)
-    @user_issues = current_user.find_voted_items(:votable_type => 'Issue')
-
-    # current_user ? @user_issues = current_user.vote_issues : User.new.vote_issues
-
-    # way1
-    # Vote.where( :scope => "agent" ).group_by
+    @all_agent_issues = LatestIssueVote.pluck(:user_id, :issue_id)
+    @my_issues = LatestIssueVote.where(:user_id => current_user.id).pluck(:user_id, :issue_id)
   end
 
   def create
