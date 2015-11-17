@@ -4,7 +4,7 @@ namespace :dev do
   usrenames = %w[零加隆 王晶平 馬一九 無思哇 花媽 沒勝文 扁扁 賴德德 波多野結衣 志玲姐姐 陳小刀 賭神 賭聖 習老大 喔爸爸 東拉蕊 吳中憲]
 
 
-  task :test_db_rebuild => ['db:drop:all', 'db:create', 'db:migrate', 'db:seed', 'dev:mass_user', 'dev:user_vote', 'dev:agent_votes', 'dev:random_tagging']
+  task :test_db_rebuild => ['db:drop:all', 'db:create', 'db:migrate', 'db:seed', 'dev:mass_user', 'dev:user_vote', 'dev:issue_votes', 'dev:agent_votes', 'dev:random_tagging']
 
   task :random_tagging => :environment do
     Tagging.delete_all
@@ -84,9 +84,56 @@ namespace :dev do
     Election.create(:name => "2013-第8屆立委臺中市第2選區缺額補選", :vote_date => "2013/1/26")
   end
 
+  task :issue_votes => :environment do
+    puts "開始'假'投票（議題）"
+    LatestIssueVote.destroy_all
+    HistoricalIssueVote.destroy_all
+
+    issue = []
+    Issue.all.each do |i|
+      issue.push(i.id)
+    end
+
+    d = 30
+    30.times do
+
+    time_date = d.day.ago.strftime("%Y-%m-%d")
+    d -= 1
+    puts "每個user在#{time_date}向兩個議題投票"
+    User.all.each do |u|
+      issue.sample(2).each do |i|
+        lastest = LatestIssueVote.find_by(:issue_id=>i, :user_id=>u.id)
+        if lastest.present?
+          lastest.destroy
+        else
+          LatestIssueVote.create(:issue_id=>i, :user_id=>u.id)
+        end
+      end
+    end
+
+    puts "建立歷史投票記錄"
+
+      Issue.all.each do |i|
+        yes_user = []
+        LatestIssueVote.where(:issue_id=>i.id).each do |liv|
+          yes_user.push(liv.user_id)
+        end
+
+        exist = HistoricalIssueVote.find_by(:issue_id=>i.id, :vote_date=>time_date)
+
+        if exist.present?
+          exist.update(:issue_id=>i.id, :likes_count=>yes_user.count,  :liked_users=>yes_user, :vote_date=>time_date)
+        else
+          HistoricalIssueVote.create(:issue_id=>i.id, :likes_count=>yes_user.count,  :liked_users=>yes_user, :vote_date=>time_date)
+        end
+      end
+
+    end
+
+  end
 
   task :agent_votes => :environment do
-    puts "每人給立委，20次"
+    puts "開始'假'投票（民代）"
     LatestAgentVote.destroy_all
     HistoricalAgentVote.destroy_all
 
@@ -96,16 +143,16 @@ namespace :dev do
     end
 
     @agents = User.where(:role => 1)
-    d = 31
 
+    d = 30
     30.times do
 
       time_date = d.day.ago.strftime("%Y-%m-%d")
       d -= 1
-      puts "每個user在#{time_date}向五個立委投票"
+      puts "每個user在#{time_date}向三個立委投票"
 
       User.all.each do |u|
-        agent.sample(5).each do |i|
+        agent.sample(3).each do |i|
           lastest = LatestAgentVote.find_by(:agent_id=>i, :user_id=>u.id)
           if lastest.present?
             lastest.update(:value => [1,-1].sample)
@@ -140,9 +187,33 @@ namespace :dev do
     end
   end
 
+  # ========每日3點排程========
+  # For 議題
+  task :historical_issue_votes => :environment do
+    puts "建立歷史記錄，每日議題投票人數（every day 3:00 am）"
 
+    time_date = Time.now.strftime("%Y-%m-%d")
+
+    Issue.all.each do |i|
+      yes_user = []
+      LatestIssueVote.where(:issue_id=>i.id).each do |liv|
+        yes_user.push(liv.user_id)
+      end
+
+      exist = HistoricalIssueVote.find_by(:issue_id=>i.id, :vote_date=>time_date)
+
+      if exist.present?
+        exist.update(:issue_id=>i.id, :likes_count=>yes_user.count,  :liked_users=>yes_user, :vote_date=>time_date)
+      else
+        HistoricalIssueVote.create(:issue_id=>i.id, :likes_count=>yes_user.count,  :liked_users=>yes_user, :vote_date=>time_date)
+      end
+    end
+  end
+
+  # For 立委
   task :historical_agent_votes => :environment do
-    puts "建立每日立委投票人數（every day 3:00 am）"
+    puts "建立歷史記錄，每日立委投票人數（every day 3:00 am）"
+
     time_date = Time.now.strftime("%Y-%m-%d")
 
     @agents = User.where(:role => 1)

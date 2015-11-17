@@ -23,4 +23,5 @@ set :output, 'log/cron.log'
 
 every 1.day, :at => '3:00 am' do
     rake "dev:historical_agent_votes"
+    rake "dev:historical_issue_votes"
 end

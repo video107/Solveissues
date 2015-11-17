@@ -39,13 +39,15 @@
   <div class="row">
     <div class="col-xs-12 sky-header"><h2>支持此議題的民代</h2></div>
 
-      <% @issue.find_votes_for(:vote_scope => 'agent').each do |v| %>
-        <% agent = User.find(v.voter_id) %>
-        <%= link_to user_path(agent) do %>
-        <div class="col-xs-2 text-center user-img"><%= image_tag(agent.fb_image, :class => "w100p")%>
-          <p class = "user-name"><%= agent.name %></p>
-        </div>
-        <% end %>
+       <% @issue.liked_users.each do |agent| %>
+
+        <% if agent.role==1 %>
+          <%= link_to user_path(agent) do %>
+          <div class="col-xs-2 text-center user-img"><%= image_tag(agent.fb_image, :class => "w100p")%>
+            <p class = "user-name"><%= agent.name %></p>
+          </div>
+          <% end %>
+        <%end%>
       <% end %>
 
   </div>
