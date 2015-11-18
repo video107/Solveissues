@@ -238,26 +238,4 @@ namespace :dev do
     end
   end
 
-# =========以下為舊的===================
-  task :demo_data => :environment do
-    # 產生 Demo用的基本data
-
-    ActiveRecord::Base.transaction do
-      puts '產生10000個選民'
-      10.times do |i|
-          user = User.create(:email =>Faker::Internet.email, :password => "12345678",role: 0, country: country.sample, :fb_image => Faker::Avatar.image, :name => Faker::Name.name)
-          Vote.create!(user: user, issue: Issue.all.sample)
-      end
-      puts '產生40000筆投票'
-      30.times do |i|
-        user = User.all.sample
-        issue = Issue.all.sample
-        vote = Vote.new(:issue => issue, :user => user)
-        vote.save! unless issue.find_vote_by_user(user)
-      end
-    end
-
-  end
-
-
 end

@@ -16,6 +16,16 @@ ActiveRecord::Schema.define(version: 20151115033704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "agent_histories", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.date     "date",       null: false
+    t.integer  "likes",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "agent_histories", ["user_id"], name: "index_agent_histories_on_user_id", using: :btree
+
   create_table "election_records", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "category",        null: false
