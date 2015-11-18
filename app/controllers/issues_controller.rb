@@ -57,6 +57,18 @@ class IssuesController < ApplicationController
   #   end
   # end
 
+  def like
+    @issue = Issue.find(params[:id])
+    current_user.toggle_like(@issue)
+
+    respond_to do |format|
+      format.html {
+        redirect_to :back
+      }
+      format.js
+    end
+  end
+
   # DELETE /issues/1
   # DELETE /issues/1.json
   # def destroy

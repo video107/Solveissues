@@ -7,7 +7,7 @@
 </script>
 
 <div class="container">
-  
+
   <div id="tag-cloud"></div>
 
   <div class="row">
@@ -27,10 +27,18 @@
           <% @issues.each do |issue| %>
           <tr>
             <td><%= link_to issue.title, issue %></td>
-            <td id="count-<%= issue.id %>"><%= issue.find_votes_for.size %></td>
+            <td id="count-<%= issue.id %>"><i><%= issue.liked_users.size %></i></td>
             <td>
               <div id="like-<%= issue.id %>" class="text-align">
-                <%= render :partial => "votes/show", :locals => {:issue => issue} %>
+              <% if issue.like_by_user?(current_user) %>
+                <%= link_to like_issue_path(issue), method: :post, class: "btn btn-primary", id: "like-#{issue.id}", remote: true do %>
+                  <span class=" glyphicon glyphicon-thumbs-up"></span>
+                <% end %>
+              <% else %>
+                <%= link_to like_issue_path(issue), method: :post, class: "btn btn-default", id: "like-#{issue.id}", remote: true do %>
+                  <span class=" glyphicon glyphicon-thumbs-up"></span>
+                <% end %>
+              <% end %>
               </div>
             </td>
           </tr>
@@ -40,7 +48,7 @@
           <% @issues.each do |issue| %>
           <tr>
             <td><%= link_to issue.title, issue %></td>
-            <td id="count-<%= issue.id %>"><%= issue.get_likes.size %></td>
+            <td id="count-<%= issue.id %>"><i><%= issue.liked_users.size %></i></td>
             <td><%= icon("thumbs-up") %></td>
           </tr>
           <% end %>
