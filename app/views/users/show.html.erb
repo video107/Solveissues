@@ -38,28 +38,29 @@
 
   <div class="row">
     <div class="col-xs-12 sky-header"><h2>支持的議題: <%= @user_issues.size %></h2></div>
-    <div class="col-xs-6">
-      <h3>議題名稱</h3>
-    </div>
-    <div class="col-xs-6 pull-left">
-      <h3>關注人數</h3>
-    </div>
   </div>
 
   <div class="row">
-    <ul>
-      <div class="spacing"></div>
-      <% @user_issues.each do |issue| %>
-        <li class="col-xs-6"><%= link_to issue.title, issue_path(issue) %></li>
-        <li class="col-xs-6 pull-left"><%= issue.liked_users.size %></li>
-      <% end %>
-    </ul>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-xs-7"><h4>議題</h4></th>
+          <th class="col-xs-2"><h4>人數</h4></th>
+          <th class="col-xs-3"> <%= link_to '建立新議題', new_issue_path, class: "btn btn-success" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: "common/issues_tbody", collection: @user_issues, as: :issue %>
+      </tbody>
+    </table>
   </div>
 
-  <!-- fb comments -->
-  <div class="col-xs-12 sky-header"><h2><%= @user.name %> 無法河蟹的留言區</h2></div>
-  <div id="fb-root"></div>
-  <%= content_tag :div, '', :class => "fb-comments", "data-href" => request.original_url, "data-numposts" => "10", "data-colorscheme" => "light", "date-width" => "100%" %>
+  <div class="row">
+    <!-- fb comments -->
+    <div class="col-xs-12 sky-header"><h2><%= @user.name %> 無法河蟹的留言區</h2></div>
+    <div id="fb-root"></div>
+    <%= content_tag :div, '', :class => "fb-comments", "data-href" => request.original_url, "data-numposts" => "10", "data-colorscheme" => "light", "date-width" => "100%" %>
+  </div>
 
   <div class="row">
     <div class="col-xs-12 sky-header"><h2>相關的民代: <%= @touched_agents.size %></h2></div>
