@@ -14,10 +14,9 @@
             <tr>
               <!-- 列出user和這位民代agent的資訊 -->
               <td><%= render_user_name_link(agent) %></td>
-              <td><%#= current_user ? agent.votes.select{ |i| @user_issues.map(&:id).include?(i.issue_id) }.size : 0 %>
-              <%#= agent.find_votes_for.select{ |i| @user_issues.map(&:id).include?(i.votable_id) && i.votable_type == "Issue" }.size %>
+              <td>
 
-              <%= agent.number_of_same_issues(@all_agent_issues, @my_issues) %>
+              <%= User.same_issue_ids(agent, current_user).size %>
 
               </td>
               <td id = "agent-vote-<%= agent.id %>">

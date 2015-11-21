@@ -7,21 +7,16 @@ class User < ActiveRecord::Base
 
   has_many :votes, :dependent => :destroy
   has_many :vote_issues, through: :votes, source: :issue, :dependent => :destroy
-
-
   # Liked issues of user
   has_many :latest_issue_votes, dependent: :destroy
   has_many :like_issues, through: :latest_issue_votes, source: :issue, dependent: :destroy
-
   has_many :latest_agent_votes, :dependent => :destroy
   has_many :vote_to_agents, :through => :latest_agent_votes, :source => :agent
-
-
   has_many :election_records
   has_many :issues, :foreign_key => "creator"
   has_one :information, :dependent => :destroy
-  accepts_nested_attributes_for :information, :allow_destroy => true, :reject_if => :all_blank
 
+  accepts_nested_attributes_for :information, :allow_destroy => true, :reject_if => :all_blank
   has_attached_file :photo, :styles => { :large => "600x600>", :medium => "300x300>", :small => "250x250>", :thumb => "100x100>",:special => "70x70>" }, :default_url => "/images/:style/missing.png"
   # :path => ":rails_root/public/system/menus/:attachment/:id_partition/:style/:filename"
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
@@ -43,20 +38,6 @@ class User < ActiveRecord::Base
 
   def like_issue?(issue)
     self.like_issues.include?(issue)
-  end
-
-  def number_of_same_issues(all_agent_issues, my_issues)
-    sum = 0
-    all_agent_issues.each do |a|
-      if a[0] == self.id
-        my_issues.each do |m|
-          if m[1] == a[1]
-            sum += 1
-          end
-        end
-      end
-    end
-    sum
   end
 
   def self.from_omniauth(auth)
@@ -109,5 +90,9 @@ class User < ActiveRecord::Base
     else
       "Guest"
     end
+  end
+
+  def self.same_issue_ids(user1, user2)
+    user1.like_issues.pluck(:id) & user2.like_issues.pluck(:id)
   end
 end

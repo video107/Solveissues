@@ -3,14 +3,6 @@ class VotesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_latest_agent_vote, only: [:like_user, :dislike_user, :unlike_user]
 
-  # Pages
-  def agent_list
-    @total_agents = User.where(role: "1")
-    @agents = @total_agents.page(params[:page]).per(10)
-    @all_agent_issues = LatestIssueVote.pluck(:user_id, :issue_id)
-    @my_issues = LatestIssueVote.where(:user_id => current_user.id).pluck(:user_id, :issue_id)
-  end
-
   def create
     set_issue
     vote = @issue.find_vote_by_user(current_user)
