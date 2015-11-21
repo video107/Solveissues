@@ -11,19 +11,15 @@
   <div id="tag-cloud"></div>
 
   <div class="row">
-
-    <% if params[:tag] %>
-      <h4>
+    <h4>
+      <% if params[:tag] %>
         <%= "搜尋標籤結果：" + params[:tag] %>
         <%= link_to '', issues_path, :class => "glyphicon glyphicon-remove" %>
-      </h4>
-    <% elsif params[:q] %>
-      <h4>
+      <% elsif params[:q] %>
         <%= "搜尋關鍵字：" + params[:q][:title_cont] %>
         <%= link_to '', issues_path, :class => "glyphicon glyphicon-remove" %>
-      </h4>
-    <% end %>
-
+      <% end %>
+    </h4>
     <table class="table table-striped">
       <thead>
         <tr>
