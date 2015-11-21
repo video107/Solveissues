@@ -18,8 +18,8 @@ class Issue < ActiveRecord::Base
     self.votes.where(user_id: user.id).first
   end
 
-  def like_by_user?(current_user)
-    self.liked_users.include?(current_user)
+  def like_by_user?(user)
+    self.liked_users.include?(user)
   end
 
   def tag_list
