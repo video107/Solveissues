@@ -23,7 +23,7 @@
 
       <tbody>
       <!-- 有登入時 -->
-        <% if current_user %>
+        <% if login? %>
           <% @issues.each do |issue| %>
           <tr>
             <td><%= render_issue_name_link(issue) %></td>

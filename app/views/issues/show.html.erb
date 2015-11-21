@@ -11,7 +11,7 @@
       <legend></legend>
       <div class="col-xs-9 text-right"><h4>支持這個議題?</h4></div>
       <div class="col-xs-3 position-right-botton">
-        <% if current_user %>
+        <% if login? %>
           <div id="like-<%= @issue.id %>" class="text-center">
             <%= render_issue_like_botton(@issue) %>
           </div>
@@ -35,7 +35,8 @@
 
         <% if agent.role==1 %>
           <%= link_to user_path(agent) do %>
-          <div class="col-xs-2 text-center user-img"><%= image_tag(agent.fb_image, :class => "w100p")%>
+          <div class="col-xs-2 text-center user-img">
+            <%= image_tag(agent.fb_image, :class => "w100p")%>
             <p><%= render_user_name_link(agent) %></p>
           </div>
           <% end %>
