@@ -5,8 +5,11 @@ class UsersController < ApplicationController
 
   def show
     @user_issues = @user.like_issues
-    total_like_user_ids = LatestIssueVote.where(:issue_id => @user_issues.map(&:id)).pluck(:user_id).uniq
-    @agents = User.where(:role => 1, :id => total_like_user_ids)
+    # 有共同議題的user_ids
+
+    @touched_user_ids = LatestIssueVote.where(:issue_id => @user_issues.map(&:id)).pluck(:user_id).uniq
+    # 有共同議題的agents
+    @touched_agents = User.where(:role => 1, :id => @touched_user_ids)
   end
 
   def edit
@@ -22,6 +25,12 @@ class UsersController < ApplicationController
   end
 
   def agent_show
+  end
+
+  # Pages
+  def agent_list
+    @total_agents = User.agents
+    @agents = @total_agents.page(params[:page]).per(10)
   end
 
 private

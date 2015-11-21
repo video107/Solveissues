@@ -20,39 +20,8 @@
           <th class="col-xs-3"> <%= link_to '建立新議題', new_issue_path, class: "btn btn-success" %></th>
         </tr>
       </thead>
-
       <tbody>
-      <!-- 有登入時 -->
-        <% if current_user %>
-          <% @issues.each do |issue| %>
-          <tr>
-            <td><%= link_to issue.title, issue %></td>
-            <td id="count-<%= issue.id %>"><i><%= issue.liked_users.size %></i></td>
-            <td>
-              <div id="like-<%= issue.id %>" class="text-align">
-              <% if issue.like_by_user?(current_user) %>
-                <%= link_to like_issue_path(issue), method: :post, class: "btn btn-primary", id: "like-#{issue.id}", remote: true do %>
-                  <span class=" glyphicon glyphicon-thumbs-up"></span>
-                <% end %>
-              <% else %>
-                <%= link_to like_issue_path(issue), method: :post, class: "btn btn-default", id: "like-#{issue.id}", remote: true do %>
-                  <span class=" glyphicon glyphicon-thumbs-up"></span>
-                <% end %>
-              <% end %>
-              </div>
-            </td>
-          </tr>
-          <% end %>
-      <!-- 末登入時 -->
-        <% else %>
-          <% @issues.each do |issue| %>
-          <tr>
-            <td><%= link_to issue.title, issue %></td>
-            <td id="count-<%= issue.id %>"><i><%= issue.liked_users.size %></i></td>
-            <td><%= icon("thumbs-up") %></td>
-          </tr>
-          <% end %>
-        <% end %>
+        <%= render partial: "common/issues_tbody", collection: @issues, as: :issue %>
       </tbody>
     </table>
 

@@ -5,23 +5,15 @@
       <br>
       <p><%= @issue.description %></p>
       <br>
-      <p> 標籤：
-        <%= render :partial => "issue_tags", collection: @issue.tags, as: :tag %>
+      <p>
+        標籤：<%= render :partial => "issue_tags", collection: @issue.tags, as: :tag %>
       </p>
       <legend></legend>
       <div class="col-xs-9 text-right"><h4>支持這個議題?</h4></div>
       <div class="col-xs-3 position-right-botton">
-        <% if current_user %>
+        <% if login? %>
           <div id="like-<%= @issue.id %>" class="text-center">
-            <% if @issue.like_by_user?(current_user) %>
-                <%= link_to like_issue_path(@issue), method: :post, class: "btn btn-primary", id: "like-#{@issue.id}", remote: true do %>
-                  <span class=" glyphicon glyphicon-thumbs-up"></span>
-                <% end %>
-              <% else %>
-                <%= link_to like_issue_path(@issue), method: :post, class: "btn btn-default", id: "like-#{@issue.id}", remote: true do %>
-                  <span class=" glyphicon glyphicon-thumbs-up"></span>
-                <% end %>
-              <% end %>
+            <%= render_issue_like_botton(@issue) %>
           </div>
         <% else %>
           <%= icon("thumbs-up") %>
@@ -38,18 +30,14 @@
 
   <div class="row">
     <div class="col-xs-12 sky-header"><h2>支持此議題的民代</h2></div>
-
-       <% @issue.liked_users.each do |agent| %>
-
-        <% if agent.role==1 %>
-          <%= link_to user_path(agent) do %>
-          <div class="col-xs-2 text-center user-img"><%= image_tag(agent.fb_image, :class => "w100p")%>
-            <p class = "user-name"><%= agent.name %></p>
+      <% @issue.liked_agents.each do |agent| %>
+        <%= link_to user_path(agent) do %>
+          <div class="col-xs-2 text-center user-img">
+            <%= image_tag(agent.fb_image, :class => "w100p")%>
+            <p><%= agent.name %></p>
           </div>
-          <% end %>
-        <%end%>
+        <% end %>
       <% end %>
-
   </div>
 
   <div class="row"></div>
