@@ -12,6 +12,18 @@
 
   <div class="row">
 
+    <% if params[:tag] %>
+      <h4>
+        <%= "搜尋標籤結果：" + params[:tag] %>
+        <%= link_to '', issues_path, :class => "glyphicon glyphicon-remove" %>
+      </h4>
+    <% elsif params[:q] %>
+      <h4>
+        <%= "搜尋關鍵字：" + params[:q][:title_cont] %>
+        <%= link_to '', issues_path, :class => "glyphicon glyphicon-remove" %>
+      </h4>
+    <% end %>
+
     <table class="table table-striped">
       <thead>
         <tr>
