@@ -17,4 +17,8 @@ module IssuesHelper
     end
   end
 
+  def render_issue_name_link(issue)
+    link_to issue.title, issue
+  end
+
 end
