@@ -34,7 +34,7 @@
         <%= link_to user_path(agent) do %>
           <div class="col-xs-2 text-center user-img">
             <%= image_tag(agent.fb_image, :class => "w100p")%>
-            <p><%= render_user_name_link(agent) %></p>
+            <p><%= agent.name %></p>
           </div>
         <% end %>
       <% end %>

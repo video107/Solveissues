@@ -24,6 +24,14 @@ class UsersController < ApplicationController
   def agent_show
   end
 
+  # Pages
+  def agent_list
+    @total_agents = User.where(role: "1")
+    @agents = @total_agents.page(params[:page]).per(10)
+    @all_agent_issues = LatestIssueVote.pluck(:user_id, :issue_id)
+    @my_issues = LatestIssueVote.where(:user_id => current_user.id).pluck(:user_id, :issue_id)
+  end
+
 private
 
   def set_user
