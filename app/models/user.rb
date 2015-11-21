@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
   acts_as_voter
   acts_as_votable
 
+  scope :agents, -> { where(role: 1) }
+
   def agent?
     self.role == 1
   end
@@ -39,6 +41,19 @@ class User < ActiveRecord::Base
   def like_issue?(issue)
     self.like_issues.include?(issue)
   end
+
+  def user_name
+    if self
+       self.name || self.email.split("@").first
+    else
+      "Guest"
+    end
+  end
+
+  def self.same_issue_ids(user1, user2)
+    user1.like_issues.pluck(:id) & user2.like_issues.pluck(:id)
+  end
+
 
   def self.from_omniauth(auth)
     where(fb_uid: auth.uid).first_or_create do |user|
@@ -84,15 +99,4 @@ class User < ActiveRecord::Base
     self.authentication_token = token
   end
 
-  def user_name
-    if self
-       self.name || self.email.split("@").first
-    else
-      "Guest"
-    end
-  end
-
-  def self.same_issue_ids(user1, user2)
-    user1.like_issues.pluck(:id) & user2.like_issues.pluck(:id)
-  end
 end

@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   # Pages
   def agent_list
-    @total_agents = User.where(role: "1")
+    @total_agents = User.agents
     @agents = @total_agents.page(params[:page]).per(10)
   end
 
