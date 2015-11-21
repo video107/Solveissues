@@ -18,7 +18,7 @@
                 <%= User.same_issue_ids(agent, current_user).size %>
               </td>
               <td id = "agent-vote-<%= agent.id %>">
-                <%= reputation(agent) %>,
+                <%= agent.reputation %>,
                 <%= link_to "站聲", like_user_path(agent), :class=>"btn #{vote?(agent, 1)} btn-xs"%>
                 ｜
                 <%= link_to "噓聲", dislike_user_path(agent), :class=>"btn #{vote?(agent, -1)} btn-xs"%>

@@ -50,10 +50,15 @@ class User < ActiveRecord::Base
     end
   end
 
+  def reputation
+    rep_yes = LatestAgentVote.where(:agent_id => self.id, :value => 1).count
+    rep_no = LatestAgentVote.where(:agent_id => self.id, :value => -1).count
+    rep_yes - rep_no
+  end
+
   def self.same_issue_ids(user1, user2)
     user1.like_issues.pluck(:id) & user2.like_issues.pluck(:id)
   end
-
 
   def self.from_omniauth(auth)
     where(fb_uid: auth.uid).first_or_create do |user|
