@@ -1,6 +1,6 @@
 module UsersHelper
 
-  def return_total_user_country_hash(total_users)
+  def return_users_country_hash(total_users)
     country_hash = Hash.new
     total_users.each do |user|
       user.country
