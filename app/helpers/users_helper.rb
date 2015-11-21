@@ -18,4 +18,8 @@ module UsersHelper
     user
   end
 
+  def render_user_name_link(user)
+    link_to user.name, user_path(user), :class=>"user-name"
+  end
+
 end
