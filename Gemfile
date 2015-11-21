@@ -53,6 +53,8 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-passenger'
   gem "letter_opener"
+  gem 'better_errors', '~> 0.9.0'
+  gem 'binding_of_caller'
 end
 
 group :development, :test do
