@@ -1,12 +1,10 @@
 class UsersController < ApplicationController
-
   before_action :set_user, :only => [:show, :edit, :update]
   before_action :get_history_likes, :only => :show
 
   def show
     @user_issues = @user.like_issues
     # 有共同議題的user_ids
-
     @touched_user_ids = LatestIssueVote.where(:issue_id => @user_issues.map(&:id)).pluck(:user_id).uniq
     # 有共同議題的agents
     @touched_agents = User.where(:role => 1, :id => @touched_user_ids)
@@ -22,9 +20,6 @@ class UsersController < ApplicationController
     else
       render "edit"
     end
-  end
-
-  def agent_show
   end
 
   # Pages
