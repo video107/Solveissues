@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
   acts_as_voter
   acts_as_votable
 
+  def agent?
+    self.role == 1
+  end
+
   def toggle_like(issue)
     if self.like_issue?(issue)
       self.like_issues.delete(issue)

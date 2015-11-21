@@ -34,4 +34,8 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  def liked_agents
+    self.liked_users.where(:role =>1)
+  end
+
 end
