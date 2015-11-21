@@ -5,8 +5,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
 
-  has_many :votes, :dependent => :destroy
-  has_many :vote_issues, through: :votes, source: :issue, :dependent => :destroy
   # Liked issues of user
   has_many :latest_issue_votes, dependent: :destroy
   has_many :like_issues, through: :latest_issue_votes, source: :issue, dependent: :destroy
@@ -20,9 +18,6 @@ class User < ActiveRecord::Base
   has_attached_file :photo, :styles => { :large => "600x600>", :medium => "300x300>", :small => "250x250>", :thumb => "100x100>",:special => "70x70>" }, :default_url => "/images/:style/missing.png"
   # :path => ":rails_root/public/system/menus/:attachment/:id_partition/:style/:filename"
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
-
-  acts_as_voter
-  acts_as_votable
 
   scope :agents, -> { where(role: 1) }
 
