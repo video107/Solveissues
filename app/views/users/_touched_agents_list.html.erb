@@ -2,5 +2,5 @@
   <%= image_tag(agent.fb_image, :class => "w100p")%>
   <p><%= render_user_name_link(agent) %></p>
   <% same_issues = agent.like_issues.select{ |i| @user_issues.map(&:id).include?(i.id)} %>
-  <div class = "user-name">共同關注議題: <%= same_issues.size %></div>
+  <div class = "user-name"><%= same_issues.size %>項議題</div>
 </div>

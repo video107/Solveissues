@@ -1,16 +1,32 @@
 <div class="container">
   <h1>
     <% if @user.agent? %>
-      "現職": <%= @user.name %>
+      <div class="col-xs-6">
+        "現職": <%= @user.name %>
+      </div>
+      <div class="col-xs-6 text-right">
+        <%= link_to "站聲", like_user_path(@user), :class=>"btn btn-default btn-xs"%>
+        <%= link_to "噓聲", dislike_user_path(@user), :class=>"btn btn-default btn-xs"%>
+        <%= link_to "觀察", unlike_user_path(@user), :class=>"btn btn-default btn-xs"%>
+        <div class="fb-share-button" data-href="<%= user_path(@user) %>" data-layout="button_count"></div>
+      </div>
     <% else %>
       <%= @user.name %>
     <% end %>
   </h1>
 
-  <%if @user.agent? %>
-    <div class="fb-share-button" data-href="<%= user_path(@user) %>" data-layout="button_count"></div>
+  <ul class="nav nav-tabs nav-justified">
+    <% if @user.agent? %>
+      <li role="presentation" class="active"><a href="#reputation">民聲: <%= @user.reputation %></a></li>
+    <% end %>
+    <li role="presentation"><a href="#issues">支持議題: <%= @user.like_issues.count %></a></li>
+    <li role="presentation"><a href="#agents">相關民代</a></li>
+    <li role="presentation"><a href="#messages">不河蟹留言版</a></li>
+  </ul>
 
-    <div class="row history-chart">
+  <% if @user.agent? %>
+
+    <div class="row history-chart" id="reputation">
       <div class="col-xs-12 sky-header"><h2>歷史名聲紀錄</h2></div>
       <div class="col-xs-12">
         <div class="ct-chart ct-golden-section" id="chart1"></div>
@@ -36,11 +52,8 @@
     </div>
   <% end %>
 
-  <div class="row">
+  <div class="row" id="issues">
     <div class="col-xs-12 sky-header"><h2>支持的議題: <%= @user_issues.size %></h2></div>
-  </div>
-
-  <div class="row">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -55,22 +68,23 @@
     </table>
   </div>
 
-  <div class="row">
+  <div class="row" id="messages">
     <!-- fb comments -->
-    <div class="col-xs-12 sky-header"><h2><%= @user.name %> 無法河蟹的留言區</h2></div>
+    <div class="col-xs-12 sky-header"><h2><%= @user.name %> 不河蟹留言區</h2></div>
     <div id="fb-root"></div>
     <%= content_tag :div, '', :class => "fb-comments", "data-href" => request.original_url, "data-numposts" => "10", "data-colorscheme" => "light", "date-width" => "100%" %>
   </div>
 
-  <div class="row">
+  <div class="row" id="agents">
     <div class="col-xs-12 sky-header"><h2>相關的民代: <%= @touched_agents.size %></h2></div>
-    <%= render partial: "touched_agents_list", collection: @touched_agents,as: :agent %>
+    <%= render partial: "touched_agents_list", collection: @touched_agents, as: :agent %>
   </div>
   <br>
-
-  <div class="row">
-    <div class="col-md-2 col-md-push-5">
-    <%= link_to "回議題總覽",issues_path, :class => "btn btn-default" %>
+  <% if @user.agent? %>
+    <div class="row">
+      <div class="col-md-2 col-md-push-5">
+        <%= link_to "回民代列表",users_path, :class => "btn btn-default" %>
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>
