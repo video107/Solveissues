@@ -17,9 +17,9 @@
 
   <ul class="nav nav-tabs nav-justified">
     <% if @user.agent? %>
-      <li role="presentation" class="active"><a href="#reputation">民聲: <%= @user.reputation %></a></li>
+      <li role="presentation" class="active"><a href="#reputation">民聲 <span class="badge"><%= @user.reputation %></span></a></li>
     <% end %>
-    <li role="presentation"><a href="#issues">支持議題: <%= @user.like_issues.count %></a></li>
+    <li role="presentation"><a href="#issues">支持議題 <span class="badge"><%= @user.like_issues.count %><span></span></a></li>
     <li role="presentation"><a href="#agents">相關民代</a></li>
     <li role="presentation"><a href="#messages">不河蟹留言版</a></li>
   </ul>
