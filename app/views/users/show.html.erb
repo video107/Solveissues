@@ -5,9 +5,9 @@
         "現職": <%= @user.name %>
       </div>
       <div class="col-xs-6 text-right">
-        <%= link_to "站聲", like_user_path(@user), :class=>"btn btn-default btn-xs"%>
-        <%= link_to "噓聲", dislike_user_path(@user), :class=>"btn btn-default btn-xs"%>
-        <%= link_to "觀察", unlike_user_path(@user), :class=>"btn btn-default btn-xs"%>
+        <%= link_to "站聲", like_user_path(@user), :class=>"btn btn-default btn-xs", :id => "" %>
+        <%= link_to "噓聲", dislike_user_path(@user), :class=>"btn btn-default btn-xs", :id => "" %>
+        <%= link_to "觀察", unlike_user_path(@user), :class=>"btn btn-default btn-xs", :id => "" %>
         <div class="fb-share-button" data-href="<%= user_path(@user) %>" data-layout="button_count"></div>
       </div>
     <% else %>
@@ -53,7 +53,7 @@
   <% end %>
 
   <div class="row" id="issues">
-    <div class="col-xs-12 sky-header"><h2>支持的議題: <%= @user_issues.size %></h2></div>
+    <div class="col-xs-12 sky-header"><h2>支持 <%= @user_issues.size %> 項議題</h2></div>
     <table class="table table-striped">
       <thead>
         <tr>
