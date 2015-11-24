@@ -94,40 +94,63 @@ namespace :dev do
       issue.push(i.id)
     end
 
+    CONN = ActiveRecord::Base.connection
+
+    time = Time.now.to_s(:db)
+    inserts0 = []
     d = 30
     30.times do
 
     time_date = d.day.ago.strftime("%Y-%m-%d")
     d -= 1
+    inserts = []
     puts "每個user在#{time_date}向兩個議題投票"
-    User.all.each do |u|
-      issue.sample(2).each do |i|
-        lastest = LatestIssueVote.find_by(:issue_id=>i, :user_id=>u.id)
-        if lastest.present?
-          lastest.destroy
-        else
-          LatestIssueVote.create(:issue_id=>i, :user_id=>u.id)
+      User.all.each do |u|
+        User.transaction do
+          issue.sample(2).each do |i|
+            num = [1,-1].sample
+            if inserts0.include? %Q{('#{i}', '#{u.id}', '#{time}', '#{time}')}
+              inserts0.delete %Q{('#{i}', '#{u.id}', '#{time}', '#{time}')}
+            elsif num == 1
+              inserts.push %Q{('#{i}', '#{u.id}', '#{time}', '#{time}')}
+            else
+
+            end
+          end
         end
       end
+
+    inserts0 += inserts
+
+    sql = "INSERT INTO latest_issue_votes (issue_id, user_id, created_at, updated_at) VALUES #{inserts.join(", ")}"
+    begin
+      CONN.execute sql
+      puts '成功！'
+    rescue
+      puts '失敗！'
     end
 
+    inserts2 = []
     puts "建立歷史投票記錄"
 
       Issue.all.each do |i|
-        yes_user = []
-        LatestIssueVote.where(:issue_id=>i.id).each do |liv|
-          yes_user.push(liv.user_id)
-        end
-
-        exist = HistoricalIssueVote.find_by(:issue_id=>i.id, :vote_date=>time_date)
-
-        if exist.present?
-          exist.update(:issue_id=>i.id, :likes_count=>yes_user.count,  :liked_users=>yes_user, :vote_date=>time_date)
-        else
-          HistoricalIssueVote.create(:issue_id=>i.id, :likes_count=>yes_user.count,  :liked_users=>yes_user, :vote_date=>time_date)
+        Issue.transaction do
+          yes_user = []
+          LatestIssueVote.where(:issue_id=>i.id).each do |liv|
+            yes_user.push(liv.user_id)
+          end
+          inserts2.push %Q{('#{i.id}', '#{yes_user.count}', '#{yes_user}', '#{time_date}', '#{time}', '#{time}')}
         end
       end
 
+      sql2 = "INSERT INTO historical_issue_votes (issue_id, likes_count, liked_users, vote_date, created_at, updated_at) VALUES #{inserts2.join(", ")}"
+
+      begin
+        CONN.execute sql2
+        puts '成功！！'
+      rescue
+        puts '失敗'
+      end
     end
 
   end
@@ -137,6 +160,10 @@ namespace :dev do
     LatestAgentVote.destroy_all
     HistoricalAgentVote.destroy_all
 
+    CONN = ActiveRecord::Base.connection
+
+    time = Time.now.to_s(:db)
+
     agent = []
     User.where(:role=>1).each do |a|
       agent.push(a.id)
@@ -145,23 +172,38 @@ namespace :dev do
     @agents = User.where(:role => 1)
 
     d = 30
-    30.times do
+    inserts0 = []
 
+    30.times do
+      inserts = []
       time_date = d.day.ago.strftime("%Y-%m-%d")
       d -= 1
       puts "每個user在#{time_date}向三個立委投票"
 
       User.all.each do |u|
-        agent.sample(3).each do |i|
-          lastest = LatestAgentVote.find_by(:agent_id=>i, :user_id=>u.id)
-          if lastest.present?
-            lastest.update(:value => [1,-1].sample)
-          else
-            LatestAgentVote.create(:agent_id=>i, :user_id=>u.id, :value => [1,-1].sample)
+        User.transaction do
+          agent.sample(3).each do |i|
+            num = [1,-1].sample
+            if inserts0.include? %Q{('#{i}', '#{u.id}', '#{num}', '#{time}', '#{time}')}
+               inserts0.delete %Q{('#{i}', '#{u.id}', '#{num}', '#{time}', '#{time}')}
+            else
+               inserts.push %Q{('#{i}', '#{u.id}', '#{num}', '#{time}', '#{time}')}
+            end
           end
         end
       end
 
+      inserts0 += inserts
+      sql = "INSERT INTO latest_agent_votes (agent_id, user_id, value, created_at, updated_at) VALUES #{inserts.join(", ")}"
+
+      begin
+        CONN.execute sql
+        puts '成功！'
+      rescue
+        puts '失敗！'
+      end
+
+      inserts2 = []
       puts "建立歷史投票記錄"
       @agents.each do |agent|
         yes_user = []
@@ -175,13 +217,16 @@ namespace :dev do
             no_user.push(lav.user_id)
         end
 
-        exist = HistoricalAgentVote.find_by(:agent_id=>agent.id, :vote_date=>time_date)
+        inserts2.push %Q{('#{agent.id}', '#{yes_user.count}', '#{no_user.count}', '#{yes_user}', '#{no_user}', '#{time_date}', '#{time}', '#{time}')}
+      end
 
-        if exist.present?
-          exist.update(:agent_id=>agent.id, :likes_count=>yes_user.count, :dislikes_count=>no_user.count, :liked_users=>yes_user, :disliked_users=>no_user, :vote_date=>time_date)
-        else
-          HistoricalAgentVote.create(:agent_id=>agent.id, :likes_count=>yes_user.count, :dislikes_count=>no_user.count, :liked_users=>yes_user, :disliked_users=>no_user, :vote_date=>time_date)
-        end
+      sql2 = "INSERT INTO historical_agent_votes (agent_id, likes_count, dislikes_count, liked_users, disliked_users, vote_date, created_at, updated_at) VALUES #{inserts2.join(", ")}"
+
+      begin
+        CONN.execute sql2
+        puts '成功！！'
+      rescue
+        puts '失敗'
       end
 
     end
