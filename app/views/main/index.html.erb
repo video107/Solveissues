@@ -20,10 +20,12 @@
       <div class="col-md-3 hidden-sm hidden-xs social">
         <ul class="pull-right">
           <li>
-            <%= link_to user_path(current_user) do %>
-              <span class="fa-stack">
-                <i class="fa fa-user fa-stack-2x"></i>
-              </span>
+            <% if current_user %>
+              <%= link_to user_path(current_user) do %>
+                <span class="fa-stack">
+                  <i class="fa fa-user fa-stack-2x"></i>
+                </span>
+              <% end %>
             <% end %>
           </li>
           <li>
