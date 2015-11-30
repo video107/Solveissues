@@ -34,6 +34,8 @@ gem "omniauth-facebook"
 gem 'ransack'
 gem 'paperclip'
 gem "select2-rails"
+gem "font-awesome-rails"
+gem 'owlcarousel-rails'
 
 gem 'pg'
 
