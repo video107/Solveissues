@@ -9,11 +9,15 @@ class Issue < ActiveRecord::Base
   has_many :latest_issue_votes, dependent: :destroy
   has_many :liked_users, through: :latest_issue_votes, source: :user, dependent: :destroy
 
+  def liked_users_count
+    self.liked_users.size
+  end
+
   def find_vote_by_user(user)
     self.votes.where(user_id: user.id).first
   end
 
-  def like_by_user?(user)
+  def liked_by_user?(user)
     self.liked_users.include?(user)
   end
 
