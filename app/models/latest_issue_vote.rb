@@ -1,4 +1,4 @@
 class LatestIssueVote < ActiveRecord::Base
   belongs_to :user
-  belongs_to :issue
+  belongs_to :issue, :counter_cache => true
 end
