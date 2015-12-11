@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151115033704) do
+ActiveRecord::Schema.define(version: 20151211074205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,20 @@ ActiveRecord::Schema.define(version: 20151115033704) do
   end
 
   add_index "latest_issue_votes", ["user_id", "issue_id"], name: "index_latest_issue_votes_on_user_id_and_issue_id", using: :btree
+
+  create_table "records", force: :cascade do |t|
+    t.integer  "agent_id"
+    t.integer  "reputation"
+    t.integer  "user_like"
+    t.integer  "user_dislike"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "records", ["agent_id"], name: "index_records_on_agent_id", using: :btree
+  add_index "records", ["reputation"], name: "index_records_on_reputation", using: :btree
+  add_index "records", ["user_dislike"], name: "index_records_on_user_dislike", using: :btree
+  add_index "records", ["user_like"], name: "index_records_on_user_like", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",     null: false

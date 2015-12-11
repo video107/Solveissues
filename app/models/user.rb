@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :election_records
   has_many :issues, :foreign_key => "creator"
   has_one :information, :dependent => :destroy
+  has_one :record,:foreign_key => "agent_id", :dependent => :destroy
 
   accepts_nested_attributes_for :information, :allow_destroy => true, :reject_if => :all_blank
   has_attached_file :photo, :styles => { :large => "600x600>", :medium => "300x300>", :small => "250x250>", :thumb => "100x100>",:special => "70x70>" }, :default_url => "/images/:style/missing.png"
@@ -45,10 +46,29 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.record_count
+    User.agents.each do |agent|
+      record = Record.find_by_agent_id(agent.id) || Record.create(:agent_id => agent.id)
+      rep_yes = LatestAgentVote.where(:agent_id => agent.id, :value => 1).count
+      rep_no = LatestAgentVote.where(:agent_id => agent.id, :value => -1).count
+      record.update(:user_like => rep_yes)
+      record.update(:user_dislike => rep_no)
+      record.update(:reputation => rep_yes - rep_no)
+      record.save!
+    end
+  end
+
   def reputation
-    rep_yes = LatestAgentVote.where(:agent_id => self.id, :value => 1).count
-    rep_no = LatestAgentVote.where(:agent_id => self.id, :value => -1).count
-    rep_yes - rep_no
+    record = Record.find_by_agent_id(self.id) || Record.create(:agent_id => self.id)
+    record.reputation
+  end
+
+  def user_like_count
+    self.record.user_like
+  end
+
+  def user_dislike_count
+    self.record.user_dislike
   end
 
   def self.same_issue_ids(user1, user2)
