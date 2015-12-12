@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :latest_agent_votes, :dependent => :destroy
   has_many :vote_to_agents, :through => :latest_agent_votes, :source => :agent
   has_many :election_records
-  has_many :issues, :foreign_key => "creator"
+  has_many :issues, :foreign_key => "owner"
   has_one :information, :dependent => :destroy
   has_one :record,:foreign_key => "agent_id", :dependent => :destroy
 
@@ -80,6 +80,7 @@ class User < ActiveRecord::Base
      user.email = auth.info.email
      user.fb_uid = auth.uid
      user.password = Devise.friendly_token[0,20]
+     user.name = auth.info.name
      user.fb_image = auth.info.image
      user.gender = auth.extra.raw_info.gender
      user.birthday = auth.info.birthday

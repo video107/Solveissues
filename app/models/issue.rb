@@ -33,4 +33,13 @@ class Issue < ActiveRecord::Base
     self.liked_users.where(:role =>1)
   end
 
+  def owner_name
+    if self.owner
+      User.find(self.owner).name
+    else
+      "nil"
+    end
+    
+  end
+
 end
