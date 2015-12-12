@@ -39,6 +39,7 @@ class IssuesController < ApplicationController
     @issue = current_user.issues.new(issue_params)
     respond_to do |format|
       if @issue.save
+        current_user.toggle_like(@issue)
         # @issue.votes.create(:user_id => current_user.id)
         format.html { redirect_to @issue, notice: 'Issue was successfully created.' }
         format.json { render :show, status: :created, location: @issue }
