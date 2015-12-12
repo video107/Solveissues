@@ -50,6 +50,12 @@ class IssuesController < ApplicationController
     end
   end
 
+  def update
+    if params[:destroy_logo] == "1"
+      @issue.logo = nil
+    end
+  end
+
   # PATCH/PUT /issues/1
   # PATCH/PUT /issues/1.json
   def update
@@ -94,7 +100,7 @@ class IssuesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def issue_params
-      params.require(:issue).permit(:title, :description, :owner, :tag_list => [])
+      params.require(:issue).permit(:title, :description, :logo, :owner, :tag_list => [])
     end
 
     def tag_cloud

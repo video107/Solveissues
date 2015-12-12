@@ -29,7 +29,16 @@
               <%= icon("thumbs-up") %>
             <% end %>
           </div>
-          <article><%= @issue.description %></article>
+          <article class="col-xs-12 ">
+            <% if @issue.logo.exists? %>
+              <div class="col-xs-6 pull-left" id="issue-logo">
+                <%= image_tag(@issue.logo.url(:medium))%>
+              </div>
+            <%end%>
+            <div class="col-xs-6">
+              <%= @issue.description %>
+            </div>
+          </article>
         </div>
       </div>
     </div>
