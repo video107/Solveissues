@@ -7,26 +7,26 @@ namespace :dev do
   task :test_db_rebuild => ['db:drop:all', 'db:create', 'db:migrate', 'db:seed', 'dev:mass_user', 'dev:user_vote', 'dev:issue_votes', 'dev:agent_votes', 'dev:random_tagging']
 
   task :random_tagging => :environment do
-    Tagging.delete_all
+    IssueTag.delete_all
     puts "隨機標籤"
     Issue.all.each do |x|
       tagging = [*1..17].sample(1 +  Random.rand(4))
       tagging.each do |i|
-        x.taggings.create(:tag_id => i )
+        x.issue_tags.create(:tag_id => i )
       end
     end
   end
 
-  #task :agent_history => :environment do
-  #  puts "產生一個月名聲紀錄"
-  #  AgentHistory.delete_all
-  #  agents = User.where(:role => 1)
-  #  agents.each do |x|
-  #    30.times do |i|
-  #      history_data = AgentHistory.create(:user_id => x.id, :date => i.days.ago, :likes => Faker::Number.number(3))
-  #    end
-  #  end
-  #end
+  task :agent_history => :environment do
+   puts "產生N天名聲紀錄"
+   AgentHistory.delete_all
+   agents = User.where(:role => 1)
+   agents.each do |x|
+     3.times do |i|
+       history_data = AgentHistory.create(:user_id => x.id, :date => i.days.ago, :likes => Faker::Number.number(3))
+     end
+   end
+  end
 
   # OK
   task :mass_user => :environment do
@@ -86,7 +86,7 @@ namespace :dev do
 
   task :issue_votes => :environment do
     puts "開始'假'投票（議題）"
-    LatestIssueVote.destroy_all
+    IssueVote.destroy_all
     HistoricalIssueVote.destroy_all
 
     issue = []
@@ -122,7 +122,7 @@ namespace :dev do
 
     inserts0 += inserts
 
-    sql = "INSERT INTO latest_issue_votes (issue_id, user_id, created_at, updated_at) VALUES #{inserts.join(", ")}"
+    sql = "INSERT INTO issue_votes (issue_id, user_id, created_at, updated_at) VALUES #{inserts.join(", ")}"
     begin
       CONN.execute sql
       puts '成功！'
@@ -136,7 +136,7 @@ namespace :dev do
       Issue.all.each do |i|
         Issue.transaction do
           yes_user = []
-          LatestIssueVote.where(:issue_id=>i.id).each do |liv|
+          IssueVote.where(:issue_id=>i.id).each do |liv|
             yes_user.push(liv.user_id)
           end
           inserts2.push %Q{('#{i.id}', '#{yes_user.count}', '#{yes_user}', '#{time_date}', '#{time}', '#{time}')}
@@ -157,7 +157,7 @@ namespace :dev do
 
   task :agent_votes => :environment do
     puts "開始'假'投票（民代）"
-    LatestAgentVote.destroy_all
+    gentVote.destroy_all
     HistoricalAgentVote.destroy_all
 
     CONN = ActiveRecord::Base.connection
@@ -194,7 +194,7 @@ namespace :dev do
       end
 
       inserts0 += inserts
-      sql = "INSERT INTO latest_agent_votes (agent_id, user_id, value, created_at, updated_at) VALUES #{inserts.join(", ")}"
+      sql = "INSERT INTO agent_votes (agent_id, user_id, value, created_at, updated_at) VALUES #{inserts.join(", ")}"
 
       begin
         CONN.execute sql
@@ -209,11 +209,11 @@ namespace :dev do
         yes_user = []
         no_user = []
 
-        LatestAgentVote.where(:agent_id=>agent.id, :value=>1).each do |lav|
+        AgentVote.where(:agent_id=>agent.id, :value=>1).each do |lav|
             yes_user.push(lav.user_id)
         end
 
-        LatestAgentVote.where(:agent_id=>agent.id, :value=>-1).each do |lav|
+        AgentVote.where(:agent_id=>agent.id, :value=>-1).each do |lav|
             no_user.push(lav.user_id)
         end
 
@@ -241,7 +241,7 @@ namespace :dev do
 
     Issue.all.each do |i|
       yes_user = []
-      LatestIssueVote.where(:issue_id=>i.id).each do |liv|
+      IssueVote.where(:issue_id=>i.id).each do |liv|
         yes_user.push(liv.user_id)
       end
 
@@ -266,10 +266,10 @@ namespace :dev do
     @agents.each do |agent|
       yes_user = []
       no_user = []
-      LatestAgentVote.where(:agent_id=>agent.id, :value=>1).each do |lav|
+      AgentVote.where(:agent_id=>agent.id, :value=>1).each do |lav|
         yes_user.push(lav.user_id)
       end
-      LatestAgentVote.where(:agent_id=>agent.id, :value=>-1).each do |lav|
+      AgentVote.where(:agent_id=>agent.id, :value=>-1).each do |lav|
         no_user.push(lav.user_id)
       end
 
