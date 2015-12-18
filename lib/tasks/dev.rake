@@ -141,7 +141,7 @@ namespace :dev do
   end
 
   task :agent_votes => :environment do
-    puts "每個user在過去#{d}天向三個立委投票"
+    puts "每個user在過去#{history_days}天向三個立委投票"
     AgentVote.destroy_all
     HistoricalAgentVote.destroy_all
 
