@@ -17,7 +17,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+#gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -33,21 +33,33 @@ gem 'faker'
 gem "omniauth-facebook"
 gem 'ransack'
 gem 'paperclip'
-gem "letter_opener", :group => :development
-gem 'jbuilder', '~> 2.0'
-# Use Unicorn as the app server
-# gem 'unicorn'
-gem 'pg'
-gem 'rails_12factor', group: :production
+gem "select2-rails"
+gem "font-awesome-rails"
+gem 'owlcarousel-rails'
 
+gem 'pg'
+
+gem 'faraday'
+
+gem 'whenever', :require => false
+gem 'capistrano-rails', :group => :development
+gem 'capistrano-passenger', :group => :development
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+gem 'settingslogic'
+
+group :development do
+  gem 'capistrano-rails'
+  gem 'capistrano-passenger'
+  gem "letter_opener"
+  gem 'better_errors', '~> 0.9.0'
+  gem 'binding_of_caller'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  # gem 'sqlite3'
-  gem 'mysql2'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

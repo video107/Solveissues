@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
   <h1>修改個人資料</h1> <br>
-  <%= form_for @user, :url => user_path(@user), :method => :patch do |f| %>
+  <%= form_for setup_user(@user), :url => user_path(@user), :method => :patch do |f| %>
     <% if @user.errors.any? %>
      <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this admin_user from being saved:</h2>
@@ -12,37 +12,86 @@
        <% end %>
       </ul>
      </div>
-     <% end %>
+    <% end %>
 
-     <div class="field">
+      <div class="field">
         <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, :class => "form-control form-width" %>
+        <br>
+        <%= @user.email %>
       </div>
       <br>
       <div class="field">
         <%= f.label :name %>
-        <%= f.text_field :name, autofocus: true, :class => "form-control form-width" %>
+        <br>
+        <%= @user.name %>
       </div>
       <br>
       <div class="field">
-          <%= f.label :country %><br />
+          <%= f.label :country, "現居地" %><br />
           <%= f.select :country, %w[台北市 基隆市 新北市 連江縣 宜蘭縣 新竹市 新竹縣 桃園縣 苗栗縣 台中市 彰化縣 南投縣 嘉義市 嘉義縣 雲林縣 台南市 高雄市 澎湖縣 金門縣 屏東縣 台東縣 花蓮縣],
            {}, :class => "form-control form-width" %>
       </div>
       <br>
       <div class="field">
-          <%= f.label :自我介紹 %><br />
-          <%= f.text_area :description, autofocus: true, :class => "form-control form-width" %>
+          <%= f.label :register_homecity, "戶籍地" %><br />
+          <%= f.select :register_homecity, %w[台北市 基隆市 新北市 連江縣 宜蘭縣 新竹市 新竹縣 桃園縣 苗栗縣 台中市 彰化縣 南投縣 嘉義市 嘉義縣 雲林縣 台南市 高雄市 澎湖縣 金門縣 屏東縣 台東縣 花蓮縣],
+           {}, :class => "form-control form-width" %>
       </div>
       <br>
       <div class="field">
-        <%= f.label :上傳大頭照 %><br>
-          <%= image_tag(@user.photo(:thumb)) %>
-          <% if @user.photo.exists? %>
-          <%= f.check_box "_remove_pic" %>  Remove Pic
-          <% end %>
-        <%= f.file_field :photo %>
+        <%= f.label :birthday, "生日" %>
+        <%= f.text_field :birthday, autofocus: true, :class => "form-control form-width" %>
       </div>
+      <br>
+      <div class="field">
+        <%= f.label :gender, "性別" %>
+        <%= f.text_field :gender, autofocus: true, :class => "form-control form-width" %>
+      </div>
+      <br>
+
+
+    <% if @user.role == 1 && @user == current_user %>
+        <%= f.fields_for :information do |information_form| %>
+        <div class="field">
+          <%= information_form.label :party, "政黨" %>
+          <%= information_form.text_field :party, autofocus: true, :class => "form-control form-width" %>
+        </div>  
+        <br>
+        <div class="field">
+          <%= information_form.label :job, "現職" %>
+          <%= information_form.text_field :job, autofocus: true, :class => "form-control form-width" %>
+        </div>
+        <br>
+        <div class="field">
+          <%= information_form.label :party_job, "黨職" %>
+          <%= information_form.text_field :party_job, autofocus: true, :class => "form-control form-width" %>
+        </div>
+        <br>
+        <div class="field">
+          <%= information_form.label :experience, "經歷" %>
+          <%= information_form.text_area :experience, autofocus: true, :class => "form-control form-width" %>
+         </div>
+         <br>
+         <div class="field">
+          <%= information_form.label :election_position, "參選項目" %>
+          <%= information_form.text_field :election_position, autofocus: true, :class => "form-control form-width" %>
+        </div>
+        <br>
+        <div class="field">
+          <%= information_form.label :election_area, "參選選區" %>
+          <%= information_form.text_field :election_area, autofocus: true, :class => "form-control form-width" %>
+        <% end %>
+        </div>
+        <br>
+        <div class="field">
+          <%= f.label :上傳大頭照 %><br>
+            <%= image_tag(@user.photo(:thumb)) %>
+            <% if @user.photo.exists? %>
+              <%= f.check_box "_remove_pic" %>  Remove Pic
+            <% end %>
+          <%= f.file_field :photo %>
+        </div>
+    <% end %>
 
       <div class="spacing"></div>
       <div class="actions">

@@ -11,58 +11,169 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922143043) do
+ActiveRecord::Schema.define(version: 20151213004520) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "agent_votes", force: :cascade do |t|
+    t.integer  "value"
+    t.integer  "user_id"
+    t.integer  "agent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "agent_votes", ["user_id", "agent_id"], name: "index_agent_votes_on_user_id_and_agent_id", using: :btree
+
+  create_table "election_records", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "category",        null: false
+    t.string   "onwork_title"
+    t.string   "electorate"
+    t.string   "party"
+    t.date     "period_start"
+    t.date     "period_end"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "election_result"
+    t.integer  "election_id"
+    t.string   "note"
+  end
+
+  add_index "election_records", ["election_id"], name: "index_election_records_on_election_id", using: :btree
+
+  create_table "elections", force: :cascade do |t|
+    t.string "name"
+    t.date   "vote_date"
+    t.string "description"
+  end
+
+  create_table "historical_agent_votes", force: :cascade do |t|
+    t.integer  "agent_id"
+    t.integer  "likes_count"
+    t.integer  "dislikes_count"
+    t.text     "liked_users"
+    t.text     "disliked_users"
+    t.date     "vote_date"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "historical_agent_votes", ["agent_id"], name: "index_historical_agent_votes_on_agent_id", using: :btree
+
+  create_table "historical_issue_votes", force: :cascade do |t|
+    t.integer  "issue_id"
+    t.integer  "likes_count"
+    t.text     "liked_users"
+    t.date     "vote_date"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "historical_issue_votes", ["issue_id"], name: "index_historical_issue_votes_on_issue_id", using: :btree
+
+  create_table "information", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "party"
+    t.string   "job"
+    t.string   "party_job"
+    t.text     "experience"
+    t.string   "election_position"
+    t.string   "election_area"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "information", ["user_id"], name: "index_information_on_user_id", using: :btree
+
+  create_table "issue_tags", force: :cascade do |t|
+    t.integer  "tag_id",     null: false
+    t.integer  "issue_id",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "issue_tags", ["issue_id"], name: "index_issue_tags_on_issue_id", using: :btree
+  add_index "issue_tags", ["tag_id"], name: "index_issue_tags_on_tag_id", using: :btree
+
+  create_table "issue_votes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "issue_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "issue_votes", ["user_id", "issue_id"], name: "index_issue_votes_on_user_id_and_issue_id", using: :btree
 
   create_table "issues", force: :cascade do |t|
-    t.string   "title",       limit: 255
-    t.text     "description", limit: 65535
-    t.integer  "creator",     limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.integer  "votes_count", limit: 4
+    t.string   "title"
+    t.text     "description"
+    t.integer  "owner"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "votes_count"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
   end
 
-  create_table "likes", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.integer  "agent_id",   limit: 4
-    t.boolean  "like",       limit: 1
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+  create_table "records", force: :cascade do |t|
+    t.integer  "agent_id"
+    t.integer  "reputation"
+    t.integer  "user_like"
+    t.integer  "user_dislike"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  add_index "likes", ["agent_id"], name: "index_likes_on_agent_id", using: :btree
-  add_index "likes", ["user_id"], name: "index_likes_on_user_id", using: :btree
+  add_index "records", ["agent_id"], name: "index_records_on_agent_id", using: :btree
+  add_index "records", ["reputation"], name: "index_records_on_reputation", using: :btree
+  add_index "records", ["user_dislike"], name: "index_records_on_user_dislike", using: :btree
+  add_index "records", ["user_like"], name: "index_records_on_user_like", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name",                    null: false
+    t.integer  "issue_count", default: 0, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "tags", ["issue_count"], name: "index_tags_on_issue_count", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255,   default: "", null: false
-    t.string   "encrypted_password",     limit: 255,   default: "", null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,     default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.string   "fb_image",               limit: 255
-    t.string   "fb_uid",                 limit: 255
-    t.string   "fb_access_token",        limit: 255
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "fb_image"
+    t.string   "fb_uid"
+    t.string   "fb_access_token"
     t.datetime "fb_expires_at"
-    t.string   "authentication_token",   limit: 255
-    t.string   "confirmation_token",     limit: 255
+    t.string   "authentication_token"
+    t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email",      limit: 255
-    t.integer  "role",                   limit: 4
-    t.string   "country",                limit: 255
-    t.string   "photo_file_name",        limit: 255
-    t.string   "photo_content_type",     limit: 255
-    t.integer  "photo_file_size",        limit: 4
+    t.string   "unconfirmed_email"
+    t.integer  "role"
+    t.string   "country"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.string   "name",                   limit: 255
-    t.text     "description",            limit: 65535
+    t.string   "name"
+    t.string   "register_homecity"
+    t.date     "birthday"
+    t.string   "gender"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -71,13 +182,18 @@ ActiveRecord::Schema.define(version: 20150922143043) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "votes", force: :cascade do |t|
-    t.integer  "issue_id",   limit: 4
-    t.integer  "user_id",    limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.integer  "votable_id"
+    t.string   "votable_type"
+    t.integer  "voter_id"
+    t.string   "voter_type"
+    t.boolean  "vote_flag"
+    t.string   "vote_scope"
+    t.integer  "vote_weight"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "votes", ["issue_id"], name: "index_votes_on_issue_id", using: :btree
-  add_index "votes", ["user_id"], name: "index_votes_on_user_id", using: :btree
+  add_index "votes", ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope", using: :btree
+  add_index "votes", ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
 
 end

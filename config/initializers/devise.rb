@@ -6,15 +6,21 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` on Rails 4+ applications as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '984345a3bf17670c40930d6116407285793f2545fc5c61e28855b031056bd28bc457eee9f350af392205fc3c2498dc3d7c2ff9e3316f0a156b47c1a569f3d74d'
+  config.secret_key = '984345a3bf17670c40930d6116407285793f2545fc5c61e28855b031056bd28bc457eee9f350af392205fc3c2498dc3d7c2ff9e3316f0a156b47c1a569f3d74d'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
-  fb_config = YAML.load(File.read("#{Rails.root}/config/facebook.yml"))[Rails.env]
-  config.omniauth :facebook, fb_config["app_id"], fb_config["secret"]
+  # config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+
+  config.omniauth :facebook, Settings.fb_app_id, Settings.fb_secret, scope: 'email', info_fields: 'email, name, birthday, gender, hometown, is_verified, location, locale'
+  # https://developers.facebook.com/docs/graph-api/reference/user/
+  # Someone is considered verified if they take any of the following actions:
+  # Register for mobile
+  # Confirm their account via SMS
+  # Enter a valid credit card
+
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
@@ -108,7 +114,7 @@ Devise.setup do |config|
   # able to access the website for two days without confirming their account,
   # access will be blocked just in the third day. Default is 0.days, meaning
   # the user cannot access the website without confirming their account.
-  config.allow_unconfirmed_access_for = 2.days
+  # config.allow_unconfirmed_access_for = 2.days
 
   # A period that the user is allowed to confirm their account before their
   # token becomes invalid. For example, if set to 3.days, the user can confirm
@@ -122,7 +128,7 @@ Devise.setup do |config|
   # initial account confirmation) to be applied. Requires additional unconfirmed_email
   # db field (see migrations). Until confirmed, new email is stored in
   # unconfirmed_email column, and copied to email column on successful confirmation.
-  config.reconfirmable = true
+  config.reconfirmable = false
 
   # Defines which key will be used when confirming an account
   # config.confirmation_keys = [:email]

@@ -1,18 +1,13 @@
 class UsersController < ApplicationController
-
   before_action :set_user, :only => [:show, :edit, :update]
+  before_action :get_history_likes, :only => :show
 
   def show
-    @agent = User.where(role: "1").includes(:votes)
-    @user_issues = @user.vote_issues
-
-    if @user.role == 1
-      total_user_ids = Vote.where( :issue_id => @user_issues.map(&:id) ).pluck(:user_id).uniq
-      @total_users = User.find( total_user_ids )
-
-      #@total_users = User.includes(:votes).where( "votes.issue_id" => @user_issues.map(&:id) )
-      #一個query完成
-    end
+    @user_issues = @user.like_issues
+    # 有共同議題的user_ids
+    @touched_user_ids = LatestIssueVote.where(:issue_id => @user_issues.map(&:id)).pluck(:user_id).uniq
+    # 有共同議題的agents
+    @touched_agents = User.where(:role => 1, :id => @touched_user_ids)
   end
 
   def edit
@@ -27,16 +22,17 @@ class UsersController < ApplicationController
     end
   end
 
+  # Pages
   def agent_list
-    @agent = User.where(role: "1").includes(:votes)
-    current_user ? @user_issues = current_user.vote_issues : User.new.vote_issues
+    User.record_count
+    @total_agents = User.agents
+    @agents = @total_agents.page(params[:page]).per(10)
+
+    if params[:sort] 
+      sort = "records.#{params[:sort]} DESC"
+      @agents = @total_agents.includes(:record).order(sort).page(params[:page]).per(10)
+    end
   end
-
-  def agent_show
-
-  end
-
-
 
 private
 
@@ -45,7 +41,18 @@ private
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :description, :country)
+    params.require(:user).permit(:name, :email, :description, :country, :register_homecity, :birthday, :gender, :information_attributes => [:party, :job, :party_job, :experience, :election_position, :experience, :election_area])
+  end
+
+  def get_history_likes
+    @likes_history = HistoricalAgentVote.where(:agent_id => @user)
+    @likes = []
+    @date = []
+
+    @likes_history.each do |x|
+      @likes.push((x.likes_count - x.dislikes_count).to_i)
+      @date.push(x.vote_date.to_s)
+    end
   end
 
 
